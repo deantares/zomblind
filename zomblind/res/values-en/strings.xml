@@ -3,6 +3,6 @@
 
     <string name="hello">Hello World, ZomblindActivity!</string>
     <string name="app_name">Zomblind</string>
-    <string name="speaker_button_back_exit">Pulsa de nuevo para salir</string>
+    <string name="speaker_button_back_exit">Press Again to exit</string>
 
 </resources>
