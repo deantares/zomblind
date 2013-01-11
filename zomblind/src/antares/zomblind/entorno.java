@@ -12,7 +12,7 @@ import android.media.MediaPlayer;
 public class entorno {
 	Timer _eventos;
 	private long TASK_DELAY = 1000;
-	private long TASK_PERIOD = 2000;
+	private long TASK_PERIOD = 1000;
 	
 	private Context _context;
 	
@@ -59,7 +59,7 @@ public class entorno {
 				
 				
 					if(!((ZomblindActivity)_context)._talker.isSpeaking()){
-						int a = ale.nextInt(20);
+						int a = ale.nextInt(10);
 						if(a == 0){zombie1.start(); ((ZomblindActivity) _context).zombie = "derecha"; }
 						if(a == 1){zombie2.start(); ((ZomblindActivity) _context).zombie = "izquierda"; }
 						if(a == 2){zombie3.start(); ((ZomblindActivity) _context).zombie = "centro"; }
