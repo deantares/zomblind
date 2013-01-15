@@ -84,18 +84,22 @@ public class ZomblindActivity extends Activity {
 
 				canvas.drawText("Posición de mira (relativa)", 10,
 						delay_text * 10, paint);
-				canvas.drawText(Float.toString(azimut - original_azimut), 10,
+				float aux = (azimut - original_azimut ) % 360;
+				float aux_r = aux<0?aux+360:aux;
+				canvas.drawText(Float.toString(aux_r), 10,
 						delay_text * 11, paint);
 
 				canvas.drawText("Posición de mira (entera)", 10,
 						delay_text * 12, paint);
-				String aux = "";
-				if ((azimut - original_azimut) < 0.5) {
-					aux = "izquierda";
-				} else if ((azimut - original_azimut) > 0.5) {
-
+				String aux2 = "";
+				if ((aux_r) < 180-30) {
+					aux2 = "izquierda";
+				} else if ((aux_r) > 180+30) {
+					aux2 = "derecha";
+				}else{
+					aux2 = "centro";
 				}
-				canvas.drawText(aux, 10, delay_text * 13, paint);
+				canvas.drawText(aux2, 10, delay_text * 13, paint);
 				
 				canvas.drawText("Posición de Zombie", 10,
 						delay_text * 14, paint);
@@ -207,6 +211,7 @@ public class ZomblindActivity extends Activity {
 
 			Log.d(this.getClass().getName(), "back button pressed");
 			if (salir == true) {
+				_entorno._eventos.cancel();
 				finish();
 			} else {
 				_speaker.say(getString(R.string.speaker_button_back_exit));
