@@ -2,6 +2,7 @@ package antares.zomblind;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,26 +22,35 @@ import android.widget.Toast;
 
 public class ZomblindActivity extends Activity {
 
-	
-	//Variables booleanas de control
+	// Variables booleanas de control
 	Boolean debug = true;
 	Boolean calibrado = false;
 	Boolean salir = false;
 
-	//Variables de sensores
+	// Variables de sensores: Orientación
 	Float azimut; // Orientación
 	Float original_azimut; // Orientación de calibrado
 	float position_touch_x = 50;
 	float position_touch_y = 50;
 
-	//Cadenas auxiliares
+	// Variables de sensores: Acelerómetro
+	float last_update = 0, last_movement = 0;
+	float prevX = 0, prevY = 0, prevZ = 0;
+	float curX = 0, curY = 0, curZ = 0;
+	String res_acelerometro = "";
+	String res_acelerometroX = "";
+	String res_acelerometroY = "";
+	String res_acelerometroZ = "";
+	String res_acelerometro_anterior = "";
+
+	// Cadenas auxiliares
 	String action = "";
 	entorno _entorno = null;
-	
-	//Objectos activadores de servicios
+
+	// Objectos activadores de servicios
 	public TextToSpeech _talker;
-	
-	//Posición Zombie
+
+	// Posición Zombie
 	String zombie = "";
 
 	public class CustomDrawableView extends View {
@@ -84,27 +94,35 @@ public class ZomblindActivity extends Activity {
 
 				canvas.drawText("Posición de mira (relativa)", 10,
 						delay_text * 10, paint);
-				float aux = (azimut - original_azimut ) % 360;
-				float aux_r = aux<0?aux+360:aux;
-				canvas.drawText(Float.toString(aux_r), 10,
-						delay_text * 11, paint);
+				float aux = (azimut - original_azimut) % 360;
+				float aux_r = aux < 0 ? aux + 360 : aux;
+				canvas.drawText(Float.toString(aux_r), 10, delay_text * 11,
+						paint);
 
 				canvas.drawText("Posición de mira (entera)", 10,
 						delay_text * 12, paint);
 				String aux2 = "";
-				if ((aux_r) < 180-30) {
+				if ((aux_r) < 180 - 30) {
 					aux2 = "izquierda";
-				} else if ((aux_r) > 180+30) {
+				} else if ((aux_r) > 180 + 30) {
 					aux2 = "derecha";
-				}else{
+				} else {
 					aux2 = "centro";
 				}
 				canvas.drawText(aux2, 10, delay_text * 13, paint);
-				
-				canvas.drawText("Posición de Zombie", 10,
-						delay_text * 14, paint);
-				canvas.drawText(zombie, 10,
-						delay_text * 15, paint);
+
+				canvas.drawText("Posición de Zombie", 10, delay_text * 14,
+						paint);
+				canvas.drawText(zombie, 10, delay_text * 15, paint);
+
+				canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 16,
+						paint);
+				canvas.drawText(curX + " - " + curY + " - " + curZ, 10,
+						delay_text * 17, paint);
+				canvas.drawText(res_acelerometro + "( " + res_acelerometro_anterior + " )", 10, delay_text * 18, paint);
+				canvas.drawText(res_acelerometroX, 10, delay_text * 19, paint);
+				canvas.drawText(res_acelerometroY, 10, delay_text * 20, paint);
+				canvas.drawText(res_acelerometroZ, 10, delay_text * 21, paint);
 			}
 
 		}
@@ -138,25 +156,31 @@ public class ZomblindActivity extends Activity {
 
 	CustomDrawableView mCustomDrawableView;
 
-	private static SensorManager sensorService;
-	private Sensor sensor;
+	private static SensorManager sensorServiceOrientacion,
+			sensorServiceAcelerometro;
+	private Sensor sensorOrientacion, sensorAcelerometro;
 	public mInInitListener _speaker = new mInInitListener();
 
 	protected void onCreate(Bundle savedInstanceState) {
-		
-		//Creamos la actividad
+
+		// Creamos la actividad
 		super.onCreate(savedInstanceState);
-		
-		//Definimos su vista
+
+		// Definimos su vista
 		mCustomDrawableView = new CustomDrawableView(this);
 		setContentView(mCustomDrawableView);
-		
-		//Inicializamos el sensor
-		sensorService = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		sensor = sensorService.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-		if (sensor != null) {
-			sensorService.registerListener(mySensorEventListener, sensor,
-					SensorManager.SENSOR_DELAY_NORMAL);
+
+		// Bloqueamos la orientación
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		// Inicializamos el sensor de orientación
+		sensorServiceOrientacion = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		sensorOrientacion = sensorServiceOrientacion
+				.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+		if (sensorOrientacion != null) {
+			sensorServiceOrientacion.registerListener(
+					mySensorEventListenerOrientacion, sensorOrientacion,
+					SensorManager.SENSOR_DELAY_GAME);
 			Log.i("Compass MainActivity", "Registerered for ORIENTATION Sensor");
 
 		} else {
@@ -166,10 +190,27 @@ public class ZomblindActivity extends Activity {
 			finish();
 		}
 
+		// Inicializamos el sensor de aceleración
+		sensorServiceAcelerometro = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		sensorAcelerometro = sensorServiceAcelerometro
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		if (sensorAcelerometro != null) {
+			sensorServiceAcelerometro.registerListener(
+					mySensorEventListenerAceleracion, sensorAcelerometro,
+					SensorManager.SENSOR_DELAY_GAME);
+			Log.i("Compass MainActivity",
+					"Registerered for ACCELEROMETERSensor");
 
-		
+		} else {
+			Log.e("Compass MainActivity",
+					"Registerered for ACCELEROMETER Sensor");
+			Toast.makeText(this, "ACCELEROMETER Sensor not found",
+					Toast.LENGTH_LONG).show();
+			finish();
+		}
+
 		_entorno = new entorno(ZomblindActivity.this);
-		
+
 		_talker = new TextToSpeech(this, _speaker);
 		_speaker.say("Toca la pantalla para calibrar");
 
@@ -187,18 +228,168 @@ public class ZomblindActivity extends Activity {
 		}
 	};
 
-	private SensorEventListener mySensorEventListener = new SensorEventListener() {
+	private SensorEventListener mySensorEventListenerOrientacion = new SensorEventListener() {
 
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		}
 
 		public void onSensorChanged(SensorEvent event) {
-			if (original_azimut == null) {
-				original_azimut = event.values[0]; // orientation contains:
-													// azimut, pitch and roll}
-			} else {
-				azimut = event.values[0];
+			synchronized (this) {
+				if (original_azimut == null) {
+					original_azimut = event.values[0]; // orientation contains:
+														// azimut, pitch and
+														// roll}
+				} else {
+					azimut = event.values[0];
+				}
+				mCustomDrawableView.invalidate();
 			}
+		}
+
+	};
+
+	private SensorEventListener mySensorEventListenerAceleracion = new SensorEventListener() {
+
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		}
+
+		public void onSensorChanged(SensorEvent event) {
+
+			synchronized (this) {
+
+				long current_time = event.timestamp;
+
+				curX = event.values[0];
+				curY = event.values[1];
+				curZ = event.values[2];
+
+				if (prevX == 0 && prevY == 0 && prevZ == 0) {
+					last_update = current_time;
+					last_movement = current_time;
+					prevX = curX;
+					prevY = curY;
+					prevZ = curZ;
+				}
+
+				long time_difference = (long) (current_time - last_update);
+				if (time_difference > 0) {
+					// float movement_abs = Math.abs((curX + curY + curZ) -
+					// (prevX - prevY - prevZ)) / time_difference;
+					float movement_X = Math.abs(curX - prevX) / time_difference;
+					boolean direcion_X = curX > prevX ? true : false;
+					float movement_Y = Math.abs(curY - prevY) / time_difference;
+					boolean direcion_Y = curX > prevY ? true : false;
+					float movement_Z = Math.abs(curZ - prevZ) / time_difference;
+					boolean direcion_Z = curX > prevZ ? true : false;
+
+					int limit = 1500;
+
+					// Sensibilidad del sensor. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
+					float min_movement = 0.00000015f; // 2f ;//1E-6f;
+
+					// if (movement_abs > min_movement) {
+					// if (current_time - last_movement >= limit) {
+					// //Toast.makeText(getApplicationContext(),
+					// "Hay movimiento de " + movement,
+					// Toast.LENGTH_SHORT).show();
+					// res_acelerometro = "Movimiento de " + movement_abs;
+					// res_acelerometroX = "X : " + movement_X + " " +
+					// direcion_X;
+					// res_acelerometroY = "Y : " + movement_Y + " " +
+					// direcion_Y;
+					// res_acelerometroZ = "Z : " + movement_Z + " " +
+					// direcion_Z;
+					//
+					// }
+					// last_movement = current_time;
+					// }
+
+					// Nos tenemos que quedar con el "movimiento mayor"
+
+					if (movement_X > movement_Y) {
+						if (movement_X > movement_Z) {
+							// Movement_X el mayor
+							if (movement_X > min_movement) {
+								res_acelerometro = "Movimiento de " + (direcion_X == true ? "+" : "-") + "X";
+							}else{
+								res_acelerometro += "·" ;
+							}
+
+						} else {
+							// Movement_Z el mayor
+							if (movement_Z > min_movement) {
+								res_acelerometro = "Movimiento de " + (direcion_Z == true ? "+" : "-") + "Z";
+							}else{
+								res_acelerometro += "·" ;
+							}
+						}
+					} else {
+						if (movement_Y > movement_Z) {
+							// Movement_Y el mayor
+							if (movement_Y > min_movement) {
+								res_acelerometro = "Movimiento de " + (direcion_Y == true ? "+" : "-") + "Y";
+							}else{
+								res_acelerometro += "·" ;
+							}
+						} else {
+							// Movement_Z el mayor
+							if (movement_Z > min_movement) {
+								res_acelerometro = "Movimiento de " + (direcion_Z == true ? "+" : "-") + "Z";
+							}else{
+								res_acelerometro += "·" ;
+							}
+						}
+
+					}
+
+//					if (movement_X > min_movement) {
+//						if (current_time - last_movement >= limit) {
+//							// Toast.makeText(getApplicationContext(),
+//							// "Hay movimiento de " + movement,
+//							// Toast.LENGTH_SHORT).show();
+//							res_acelerometro = "Movimiento de "
+//									+ (direcion_X == true ? "+" : "-") + "X";
+//
+//						}
+//						last_movement = current_time;
+//					} else if (movement_Y > min_movement) {
+//						if (current_time - last_movement >= limit) {
+//							// Toast.makeText(getApplicationContext(),
+//							// "Hay movimiento de " + movement,
+//							// Toast.LENGTH_SHORT).show();
+//							res_acelerometro = "Movimiento de "
+//									+ (direcion_Y == true ? "+" : "-") + "Y";
+//
+//						}
+//						last_movement = current_time;
+//					} else if (movement_Z > min_movement) {
+//						if (current_time - last_movement >= limit) {
+//							// Toast.makeText(getApplicationContext(),
+//							// "Hay movimiento de " + movement,
+//							// Toast.LENGTH_SHORT).show();
+//							res_acelerometro = "Movimiento de "
+//									+ (direcion_Z == true ? "+" : "-") + "Z";
+//
+//						}
+//						last_movement = current_time;
+//					} else {
+//						if (current_time - last_movement >= limit) {
+//							// Toast.makeText(getApplicationContext(),
+//							// "Hay movimiento de " + movement,
+//							// Toast.LENGTH_SHORT).show();
+//							// res_acelerometro = "Sin movimiento";
+//
+//						}
+//					}
+
+					prevX = curX;
+					prevY = curY;
+					prevZ = curZ;
+					last_update = current_time;
+				}
+
+			}
+
 			mCustomDrawableView.invalidate();
 		}
 
@@ -225,6 +416,16 @@ public class ZomblindActivity extends Activity {
 			debug = !debug;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	public void onAccuracyChanged(Sensor arg0, int arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onSensorChanged(SensorEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
