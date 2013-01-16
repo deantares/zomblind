@@ -20,7 +20,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import antares.zomblind.controles.*;
+
 public class ZomblindActivity extends Activity {
+	
+	//Clases
+	acelerometro _acelerometro = new acelerometro();
 
 	// Variables booleanas de control
 	Boolean debug = true;
@@ -117,12 +122,7 @@ public class ZomblindActivity extends Activity {
 
 				canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 16,
 						paint);
-				canvas.drawText(curX + " - " + curY + " - " + curZ, 10,
-						delay_text * 17, paint);
-				canvas.drawText(res_acelerometro + "( " + res_acelerometro_anterior + " )", 10, delay_text * 18, paint);
-				canvas.drawText(res_acelerometroX, 10, delay_text * 19, paint);
-				canvas.drawText(res_acelerometroY, 10, delay_text * 20, paint);
-				canvas.drawText(res_acelerometroZ, 10, delay_text * 21, paint);
+				canvas.drawText(_acelerometro.toString(), 10, delay_text * 17, paint);
 			}
 
 		}
@@ -257,136 +257,7 @@ public class ZomblindActivity extends Activity {
 
 			synchronized (this) {
 
-				long current_time = event.timestamp;
-
-				curX = event.values[0];
-				curY = event.values[1];
-				curZ = event.values[2];
-
-				if (prevX == 0 && prevY == 0 && prevZ == 0) {
-					last_update = current_time;
-					last_movement = current_time;
-					prevX = curX;
-					prevY = curY;
-					prevZ = curZ;
-				}
-
-				long time_difference = (long) (current_time - last_update);
-				if (time_difference > 0) {
-					// float movement_abs = Math.abs((curX + curY + curZ) -
-					// (prevX - prevY - prevZ)) / time_difference;
-					float movement_X = Math.abs(curX - prevX) / time_difference;
-					boolean direcion_X = curX > prevX ? true : false;
-					float movement_Y = Math.abs(curY - prevY) / time_difference;
-					boolean direcion_Y = curX > prevY ? true : false;
-					float movement_Z = Math.abs(curZ - prevZ) / time_difference;
-					boolean direcion_Z = curX > prevZ ? true : false;
-
-					int limit = 1500;
-
-					// Sensibilidad del sensor. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
-					float min_movement = 0.00000015f; // 2f ;//1E-6f;
-
-					// if (movement_abs > min_movement) {
-					// if (current_time - last_movement >= limit) {
-					// //Toast.makeText(getApplicationContext(),
-					// "Hay movimiento de " + movement,
-					// Toast.LENGTH_SHORT).show();
-					// res_acelerometro = "Movimiento de " + movement_abs;
-					// res_acelerometroX = "X : " + movement_X + " " +
-					// direcion_X;
-					// res_acelerometroY = "Y : " + movement_Y + " " +
-					// direcion_Y;
-					// res_acelerometroZ = "Z : " + movement_Z + " " +
-					// direcion_Z;
-					//
-					// }
-					// last_movement = current_time;
-					// }
-
-					// Nos tenemos que quedar con el "movimiento mayor"
-
-					if (movement_X > movement_Y) {
-						if (movement_X > movement_Z) {
-							// Movement_X el mayor
-							if (movement_X > min_movement) {
-								res_acelerometro = "Movimiento de " + (direcion_X == true ? "+" : "-") + "X";
-							}else{
-								res_acelerometro += "·" ;
-							}
-
-						} else {
-							// Movement_Z el mayor
-							if (movement_Z > min_movement) {
-								res_acelerometro = "Movimiento de " + (direcion_Z == true ? "+" : "-") + "Z";
-							}else{
-								res_acelerometro += "·" ;
-							}
-						}
-					} else {
-						if (movement_Y > movement_Z) {
-							// Movement_Y el mayor
-							if (movement_Y > min_movement) {
-								res_acelerometro = "Movimiento de " + (direcion_Y == true ? "+" : "-") + "Y";
-							}else{
-								res_acelerometro += "·" ;
-							}
-						} else {
-							// Movement_Z el mayor
-							if (movement_Z > min_movement) {
-								res_acelerometro = "Movimiento de " + (direcion_Z == true ? "+" : "-") + "Z";
-							}else{
-								res_acelerometro += "·" ;
-							}
-						}
-
-					}
-
-//					if (movement_X > min_movement) {
-//						if (current_time - last_movement >= limit) {
-//							// Toast.makeText(getApplicationContext(),
-//							// "Hay movimiento de " + movement,
-//							// Toast.LENGTH_SHORT).show();
-//							res_acelerometro = "Movimiento de "
-//									+ (direcion_X == true ? "+" : "-") + "X";
-//
-//						}
-//						last_movement = current_time;
-//					} else if (movement_Y > min_movement) {
-//						if (current_time - last_movement >= limit) {
-//							// Toast.makeText(getApplicationContext(),
-//							// "Hay movimiento de " + movement,
-//							// Toast.LENGTH_SHORT).show();
-//							res_acelerometro = "Movimiento de "
-//									+ (direcion_Y == true ? "+" : "-") + "Y";
-//
-//						}
-//						last_movement = current_time;
-//					} else if (movement_Z > min_movement) {
-//						if (current_time - last_movement >= limit) {
-//							// Toast.makeText(getApplicationContext(),
-//							// "Hay movimiento de " + movement,
-//							// Toast.LENGTH_SHORT).show();
-//							res_acelerometro = "Movimiento de "
-//									+ (direcion_Z == true ? "+" : "-") + "Z";
-//
-//						}
-//						last_movement = current_time;
-//					} else {
-//						if (current_time - last_movement >= limit) {
-//							// Toast.makeText(getApplicationContext(),
-//							// "Hay movimiento de " + movement,
-//							// Toast.LENGTH_SHORT).show();
-//							// res_acelerometro = "Sin movimiento";
-//
-//						}
-//					}
-
-					prevX = curX;
-					prevY = curY;
-					prevZ = curZ;
-					last_update = current_time;
-				}
+				_acelerometro.update(event);
 
 			}
 
@@ -416,16 +287,6 @@ public class ZomblindActivity extends Activity {
 			debug = !debug;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-
-	public void onAccuracyChanged(Sensor arg0, int arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onSensorChanged(SensorEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
