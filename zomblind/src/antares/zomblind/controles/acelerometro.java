@@ -1,5 +1,6 @@
 package antares.zomblind.controles;
 
+import android.content.Context;
 import android.hardware.SensorEvent;
 
 public class acelerometro {
@@ -27,6 +28,13 @@ public class acelerometro {
 	// Sensibilidad del sensor. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
 	float min_movement = 0.0000003f; // 2f ;//1E-6f;
 
+	
+	private Context _context;
+	
+	public acelerometro(Context ctx){
+		_context = ctx;
+	}
+	
 	public acelerometro() {
 
 	}

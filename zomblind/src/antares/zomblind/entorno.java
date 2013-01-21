@@ -26,13 +26,8 @@ public class entorno {
 
 		@Override
 		public void run() {
-		
-		/*	while(!((ZomblindActivity)_context).salir){
-				
-			} */
 
-
-			if(!((ZomblindActivity)_context).calibrado){
+			if(!((ZomblindActivity)_context)._orientacion.isCalibrate()){
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {

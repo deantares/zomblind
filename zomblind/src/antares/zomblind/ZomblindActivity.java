@@ -23,34 +23,26 @@ import android.widget.Toast;
 import antares.zomblind.controles.*;
 
 public class ZomblindActivity extends Activity {
-	
-	//Clases
-	acelerometro _acelerometro = new acelerometro();
 
+	// Clases de control
+	public acelerometro _acelerometro = new acelerometro();
+	public orientacion _orientacion = new orientacion();
+	public pantalla _pantalla = new pantalla(this);
+	
+	//Clases manejadoras de eventos
+	private static SensorManager sensorServiceOrientacion, sensorServiceAcelerometro;
+	private Sensor sensorOrientacion, sensorAcelerometro;
+	public mInInitListener _speaker = new mInInitListener();
+
+	//Clase de entorno de juego
+	entorno _entorno = null;
+	
 	// Variables booleanas de control
 	Boolean debug = true;
-	Boolean calibrado = false;
 	Boolean salir = false;
 
-	// Variables de sensores: Orientación
-	Float azimut; // Orientación
-	Float original_azimut; // Orientación de calibrado
-	float position_touch_x = 50;
-	float position_touch_y = 50;
-
-	// Variables de sensores: Acelerómetro
-	float last_update = 0, last_movement = 0;
-	float prevX = 0, prevY = 0, prevZ = 0;
-	float curX = 0, curY = 0, curZ = 0;
-	String res_acelerometro = "";
-	String res_acelerometroX = "";
-	String res_acelerometroY = "";
-	String res_acelerometroZ = "";
-	String res_acelerometro_anterior = "";
-
 	// Cadenas auxiliares
-	String action = "";
-	entorno _entorno = null;
+
 
 	// Objectos activadores de servicios
 	public TextToSpeech _talker;
@@ -77,44 +69,25 @@ public class ZomblindActivity extends Activity {
 
 				canvas.drawColor(Color.LTGRAY);
 				paint.setColor(Color.GREEN);
-				canvas.drawCircle(position_touch_x, position_touch_y, 20, paint);
+				canvas.drawCircle(_pantalla.x, _pantalla.y, 20, paint);
 				paint.setColor(Color.BLACK);
 				paint.setTextSize(size_text);
 				canvas.drawText("Posición toque pantalla", 10, delay_text,
 						paint);
-				canvas.drawText("x= " + position_touch_x, 10, delay_text * 2,
-						paint);
-				canvas.drawText("y= " + position_touch_y, 10, delay_text * 3,
-						paint);
+				canvas.drawText("x= " + _pantalla.x, 10, delay_text * 2, paint);
+				canvas.drawText("y= " + _pantalla.y, 10, delay_text * 3, paint);
 				paint.setTextSize(size_text);
 				canvas.drawText("Última acción pantalla", 10, delay_text * 4,
 						paint);
-				canvas.drawText(action, 10, delay_text * 5, paint);
-				canvas.drawText("Posición original de mira", 10,
-						delay_text * 6, paint);
-				canvas.drawText(original_azimut.toString(), 10, delay_text * 7,
+				canvas.drawText(_pantalla.action, 10, delay_text * 5, paint);
+				canvas.drawText("Posición de mira", 10, delay_text * 6, paint);
+				canvas.drawText(_orientacion.toString(), 10, delay_text * 7,
 						paint);
-				canvas.drawText("Posición de mira", 10, delay_text * 8, paint);
-				canvas.drawText(azimut.toString(), 10, delay_text * 9, paint);
-
 				canvas.drawText("Posición de mira (relativa)", 10,
 						delay_text * 10, paint);
-				float aux = (azimut - original_azimut) % 360;
-				float aux_r = aux < 0 ? aux + 360 : aux;
-				canvas.drawText(Float.toString(aux_r), 10, delay_text * 11,
-						paint);
 
-				canvas.drawText("Posición de mira (entera)", 10,
-						delay_text * 12, paint);
-				String aux2 = "";
-				if ((aux_r) < 180 - 30) {
-					aux2 = "izquierda";
-				} else if ((aux_r) > 180 + 30) {
-					aux2 = "derecha";
-				} else {
-					aux2 = "centro";
-				}
-				canvas.drawText(aux2, 10, delay_text * 13, paint);
+				canvas.drawText(_orientacion.mirando(), 10, delay_text * 13,
+						paint);
 
 				canvas.drawText("Posición de Zombie", 10, delay_text * 14,
 						paint);
@@ -122,44 +95,23 @@ public class ZomblindActivity extends Activity {
 
 				canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 16,
 						paint);
-				canvas.drawText(_acelerometro.toString(), 10, delay_text * 17, paint);
+				canvas.drawText(_acelerometro.toString(), 10, delay_text * 17,
+						paint);
 			}
 
 		}
 
 		public boolean onTouchEvent(MotionEvent evento) {
-			action = String.valueOf(evento.getAction());
-			if (evento.getAction() == MotionEvent.ACTION_DOWN) {
-				position_touch_x = evento.getX();
-				position_touch_y = evento.getY();
-				Log.v("Entorno", position_touch_x + "," + position_touch_y);
-				if (calibrado == false) {
-					_speaker.say("Dispositivo calibrado");
-					calibrado = true;
-					original_azimut = azimut;
-				}
-				invalidate();
-			} else if (evento.getAction() == MotionEvent.EDGE_BOTTOM) {
-				position_touch_x = evento.getX();
-				position_touch_y = evento.getY();
-				Log.v("Entorno", position_touch_x + "," + position_touch_y);
-				invalidate();
-			}
+			_pantalla.update(evento);
 			invalidate();
-
-			calibrado = true;
 			return true;
-
 		}
 
 	}
 
 	CustomDrawableView mCustomDrawableView;
 
-	private static SensorManager sensorServiceOrientacion,
-			sensorServiceAcelerometro;
-	private Sensor sensorOrientacion, sensorAcelerometro;
-	public mInInitListener _speaker = new mInInitListener();
+
 
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -216,7 +168,7 @@ public class ZomblindActivity extends Activity {
 
 	}
 
-	private class mInInitListener implements OnInitListener {
+	public class mInInitListener implements OnInitListener {
 
 		public void onInit(int arg0) {
 			// say("Hola mundo");
@@ -234,14 +186,10 @@ public class ZomblindActivity extends Activity {
 		}
 
 		public void onSensorChanged(SensorEvent event) {
-			synchronized (this) {
-				if (original_azimut == null) {
-					original_azimut = event.values[0]; // orientation contains:
-														// azimut, pitch and
-														// roll}
-				} else {
-					azimut = event.values[0];
-				}
+			if (!_orientacion.isCalibrate()) {
+				_orientacion.calibrate(event);
+			} else {
+				_orientacion.update(event);
 				mCustomDrawableView.invalidate();
 			}
 		}
@@ -255,12 +203,7 @@ public class ZomblindActivity extends Activity {
 
 		public void onSensorChanged(SensorEvent event) {
 
-			synchronized (this) {
-
-				_acelerometro.update(event);
-
-			}
-
+			synchronized (this) {_acelerometro.update(event);}
 			mCustomDrawableView.invalidate();
 		}
 
