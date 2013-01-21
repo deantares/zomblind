@@ -3,8 +3,6 @@ package antares.zomblind.environment;
 
 import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.R.raw;
-
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,14 +30,7 @@ public class entorno {
 		@Override
 		public void run() {
 
-			if(!((ZomblindActivity)_context)._orientacion.isCalibrate()){
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else{
+			if(_z._orientacion.isCalibrate()==true){
 				
 				MediaPlayer zombie1 = MediaPlayer.create(_context, R.raw.zombie01);
 				MediaPlayer zombie2 = MediaPlayer.create(_context, R.raw.zombie01);
@@ -63,7 +54,9 @@ public class entorno {
 						if(a == 0){zombie1.start(); ((ZomblindActivity) _context).zombie = "derecha"; }
 						if(a == 1){zombie2.start(); ((ZomblindActivity) _context).zombie = "izquierda"; }
 						if(a == 2){zombie3.start(); ((ZomblindActivity) _context).zombie = "centro"; }
-						if(a == 4){_z._habladora.say("Hola rafa");}
+						if(a == 4){_z._habladora.say("Hola Rafa");}
+						if(a == 5){_z._habladora.say("Hola Flan");}
+						if(a == 6){_z._habladora.say("Hola Ana");}
 					}		
 		}}
 		

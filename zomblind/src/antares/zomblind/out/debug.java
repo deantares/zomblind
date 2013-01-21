@@ -12,6 +12,7 @@ public class debug {
 	Boolean debugactivo = true;
 	int size_text = 15;
 	int delay_text = 18;
+	int conta=0;
 	
 	public debug(Context ctx){
 		_z = (ZomblindActivity) ctx;
@@ -41,19 +42,19 @@ public class debug {
 		canvas.drawText("Posición de mira", 10, delay_text * 6, paint);
 		canvas.drawText(_z._orientacion.toString(), 10, delay_text * 7,
 				paint);
-		canvas.drawText("Posición de mira (relativa)", 10,
-				delay_text * 10, paint);
+		canvas.drawText("Posición de mira (mirando)", 10,
+				delay_text * 8, paint);
 
-		canvas.drawText(_z._orientacion.mirando(), 10, delay_text * 13,
+		canvas.drawText(_z._orientacion.mirando(), 10, delay_text * 9,
 				paint);
 
-		canvas.drawText("Posición de Zombie", 10, delay_text * 14,
+		canvas.drawText("Posición de Zombie", 10, delay_text * 10,
 				paint);
-		canvas.drawText(_z.zombie, 10, delay_text * 15, paint);
+		canvas.drawText(_z.zombie, 10, delay_text * 11, paint);
 
-		canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 16,
+		canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 12,
 				paint);
-		canvas.drawText(_z._acelerometro.toString(), 10, delay_text * 17,
+		canvas.drawText(_z._acelerometro.toString(), 10, delay_text * 13,
 				paint);
 		}
 	}

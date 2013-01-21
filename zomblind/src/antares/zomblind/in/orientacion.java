@@ -27,6 +27,7 @@ public class orientacion {
 	public void calibrate(SensorEvent event){
 		synchronized (this) {
 			original_azimut = event.values[0];
+			
 			calibrado = true;
 		}
 	}
@@ -37,11 +38,7 @@ public class orientacion {
 				calibrado = true;
 			}
 			
-			
-		
-		// orientation contains:
-		// azimut, pitch and
-		// roll}
+		// orientation contains: azimut, pitch and roll}
 	}
 	
 	public void update(SensorEvent event){
@@ -56,18 +53,27 @@ public class orientacion {
 		
 	}
 	
-	public String mirando(){
-	 String aux2;
+	public String mirando(){	 
+		//return Float.toString((aux < 0 ? aux + 360 : aux) % 360);
+	 float aux = (azimut - original_azimut + 180) % 360;
+	 //return Float.toString(aux);
+	  
+	 if(aux < 150){
+		 return "izquierda";
+	 }else if (aux < 210 ){
+		 return "centro";
+	 }else{
+		 return "derecha";
+	 }
 	 
-	 float aux = (azimut - original_azimut) % 360;
-		float aux_r = aux < 0 ? aux + 360 : aux;
-		if ((aux_r) < 180 - 30) {
-			return "izquierda";
-		} else if ((aux_r) > 180 + 30) {
-			return "derecha";
-		} else {
-			return "centro";
-		}
+//		float aux_r = aux < 0 ? aux + 360 : aux;
+//		if ((aux_r) < 180 - 30) {
+//			return "izquierda";
+//		} else if ((aux_r) > 180 + 30) {
+//			return "derecha";
+//		} else {
+//			return "centro";
+//		}
 	}
 	
 }
