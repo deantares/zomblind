@@ -1,7 +1,8 @@
-package antares.zomblind.controles;
+package antares.zomblind.in;
 
 import android.content.Context;
 import android.hardware.SensorEvent;
+import antares.zomblind.ZomblindActivity;
 
 public class orientacion {
 
@@ -9,10 +10,10 @@ public class orientacion {
 	Float original_azimut;
 	Boolean calibrado = false;
 	
-	private Context _context;
+	ZomblindActivity _z;
 	
 	public orientacion(Context ctx){
-		_context = ctx;
+		_z = (ZomblindActivity) _z;
 	}
 	
 	public orientacion(){

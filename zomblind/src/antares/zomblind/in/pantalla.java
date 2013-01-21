@@ -1,4 +1,4 @@
-package antares.zomblind.controles;
+package antares.zomblind.in;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,10 +12,10 @@ public class pantalla {
 	
 	public String action ="";
 	
-	private Context _context;
+	private ZomblindActivity _z;
 	
 	public pantalla(Context ctx){
-		_context = ctx;
+		_z = (ZomblindActivity) ctx;
 	}
 	
 	public void update(MotionEvent evento){
@@ -29,9 +29,9 @@ public class pantalla {
 			y = evento.getY();
 			Log.v("Entorno", x + "," + y);
 
-			if ((((ZomblindActivity) _context)._orientacion).isCalibrate() == false) {
-				((ZomblindActivity) _context)._speaker.say("Dispositivo calibrado");
-				((ZomblindActivity) _context)._orientacion.calibrate();
+			if (_z._orientacion.isCalibrate() == false) {
+				_z._habladora.say("Dispositivo calibrado");
+				_z._orientacion.calibrate();
 			}
 		} else if (evento.getAction() == MotionEvent.EDGE_BOTTOM) {
 			x = evento.getX();

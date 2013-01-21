@@ -1,7 +1,9 @@
-package antares.zomblind;
+package antares.zomblind.environment;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import antares.zomblind.R;
+import antares.zomblind.R.raw;
 
 public class zombie extends MediaPlayer {
 	private Context _ctx;

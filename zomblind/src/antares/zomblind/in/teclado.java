@@ -1,4 +1,4 @@
-package antares.zomblind.controles;
+package antares.zomblind.in;
 
 public class teclado {
 

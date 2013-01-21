@@ -3,135 +3,65 @@ package antares.zomblind;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Toast;
 
-import antares.zomblind.controles.*;
+import antares.zomblind.environment.*;
+import antares.zomblind.in.*;
+import antares.zomblind.out.*;
 
 public class ZomblindActivity extends Activity {
 
-	// Clases de control
-	public acelerometro _acelerometro = new acelerometro();
-	public orientacion _orientacion = new orientacion();
+	// Clases de control de entrada IN
+	public acelerometro _acelerometro = new acelerometro(this);
+	public orientacion _orientacion = new orientacion(this);
 	public pantalla _pantalla = new pantalla(this);
-	
-	//Clases manejadoras de eventos
-	private static SensorManager sensorServiceOrientacion, sensorServiceAcelerometro;
-	private Sensor sensorOrientacion, sensorAcelerometro;
-	public mInInitListener _speaker = new mInInitListener();
 
-	//Clase de entorno de juego
-	entorno _entorno = null;
-	
-	// Variables booleanas de control
-	Boolean debug = true;
-	Boolean salir = false;
-
-	// Cadenas auxiliares
-
-
-	// Objectos activadores de servicios
+	// Clases de control de salida OUT
+	public debug _debug = new debug(this);
+	public interfaz _interfaz;
+	public habladora _habladora = new habladora(this);
 	public TextToSpeech _talker;
 
+	// Clases manejadoras de eventos
+	private static SensorManager _sensorServiceOrientacion,
+			_sensorServiceAcelerometro;
+	private Sensor _sensorOrientacion, _sensorAcelerometro;
+
+	// Clase de entorno de juego
+	entorno _entorno = null;
+
+	// Variables booleanas de control
+	Boolean salir = false;
+
 	// Posición Zombie
-	String zombie = "";
-
-	public class CustomDrawableView extends View {
-		Paint paint = new Paint();
-
-		public CustomDrawableView(Context context) {
-			super(context);
-			paint.setColor(0xff00ff00);
-			paint.setStyle(Style.STROKE);
-			paint.setStrokeWidth(2);
-			paint.setAntiAlias(true);
-		};
-
-		protected void onDraw(Canvas canvas) {
-
-			if (debug) {
-				int size_text = 15;
-				int delay_text = 18;
-
-				canvas.drawColor(Color.LTGRAY);
-				paint.setColor(Color.GREEN);
-				canvas.drawCircle(_pantalla.x, _pantalla.y, 20, paint);
-				paint.setColor(Color.BLACK);
-				paint.setTextSize(size_text);
-				canvas.drawText("Posición toque pantalla", 10, delay_text,
-						paint);
-				canvas.drawText("x= " + _pantalla.x, 10, delay_text * 2, paint);
-				canvas.drawText("y= " + _pantalla.y, 10, delay_text * 3, paint);
-				paint.setTextSize(size_text);
-				canvas.drawText("Última acción pantalla", 10, delay_text * 4,
-						paint);
-				canvas.drawText(_pantalla.action, 10, delay_text * 5, paint);
-				canvas.drawText("Posición de mira", 10, delay_text * 6, paint);
-				canvas.drawText(_orientacion.toString(), 10, delay_text * 7,
-						paint);
-				canvas.drawText("Posición de mira (relativa)", 10,
-						delay_text * 10, paint);
-
-				canvas.drawText(_orientacion.mirando(), 10, delay_text * 13,
-						paint);
-
-				canvas.drawText("Posición de Zombie", 10, delay_text * 14,
-						paint);
-				canvas.drawText(zombie, 10, delay_text * 15, paint);
-
-				canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 16,
-						paint);
-				canvas.drawText(_acelerometro.toString(), 10, delay_text * 17,
-						paint);
-			}
-
-		}
-
-		public boolean onTouchEvent(MotionEvent evento) {
-			_pantalla.update(evento);
-			invalidate();
-			return true;
-		}
-
-	}
-
-	CustomDrawableView mCustomDrawableView;
-
-
+	public String zombie = "";
 
 	protected void onCreate(Bundle savedInstanceState) {
-
 		// Creamos la actividad
 		super.onCreate(savedInstanceState);
 
+		_interfaz = new interfaz(this);
 		// Definimos su vista
-		mCustomDrawableView = new CustomDrawableView(this);
-		setContentView(mCustomDrawableView);
+		setContentView(_interfaz);
 
 		// Bloqueamos la orientación
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// Inicializamos el sensor de orientación
-		sensorServiceOrientacion = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		sensorOrientacion = sensorServiceOrientacion
+		_sensorServiceOrientacion = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		_sensorOrientacion = _sensorServiceOrientacion
 				.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-		if (sensorOrientacion != null) {
-			sensorServiceOrientacion.registerListener(
-					mySensorEventListenerOrientacion, sensorOrientacion,
+		if (_sensorOrientacion != null) {
+			_sensorServiceOrientacion.registerListener(
+					mySensorEventListenerOrientacion, _sensorOrientacion,
 					SensorManager.SENSOR_DELAY_GAME);
 			Log.i("Compass MainActivity", "Registerered for ORIENTATION Sensor");
 
@@ -143,12 +73,12 @@ public class ZomblindActivity extends Activity {
 		}
 
 		// Inicializamos el sensor de aceleración
-		sensorServiceAcelerometro = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		sensorAcelerometro = sensorServiceAcelerometro
+		_sensorServiceAcelerometro = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		_sensorAcelerometro = _sensorServiceAcelerometro
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		if (sensorAcelerometro != null) {
-			sensorServiceAcelerometro.registerListener(
-					mySensorEventListenerAceleracion, sensorAcelerometro,
+		if (_sensorAcelerometro != null) {
+			_sensorServiceAcelerometro.registerListener(
+					mySensorEventListenerAceleracion, _sensorAcelerometro,
 					SensorManager.SENSOR_DELAY_GAME);
 			Log.i("Compass MainActivity",
 					"Registerered for ACCELEROMETERSensor");
@@ -162,23 +92,9 @@ public class ZomblindActivity extends Activity {
 		}
 
 		_entorno = new entorno(ZomblindActivity.this);
-
-		_talker = new TextToSpeech(this, _speaker);
-		_speaker.say("Toca la pantalla para calibrar");
+		_talker = new TextToSpeech(this, _habladora);
 
 	}
-
-	public class mInInitListener implements OnInitListener {
-
-		public void onInit(int arg0) {
-			// say("Hola mundo");
-
-		}
-
-		public void say(String text2say) {
-			_talker.speak(text2say, TextToSpeech.QUEUE_FLUSH, null);
-		}
-	};
 
 	private SensorEventListener mySensorEventListenerOrientacion = new SensorEventListener() {
 
@@ -190,7 +106,7 @@ public class ZomblindActivity extends Activity {
 				_orientacion.calibrate(event);
 			} else {
 				_orientacion.update(event);
-				mCustomDrawableView.invalidate();
+				_interfaz.invalidate();
 			}
 		}
 
@@ -203,8 +119,10 @@ public class ZomblindActivity extends Activity {
 
 		public void onSensorChanged(SensorEvent event) {
 
-			synchronized (this) {_acelerometro.update(event);}
-			mCustomDrawableView.invalidate();
+			synchronized (this) {
+				_acelerometro.update(event);
+			}
+			_interfaz.invalidate();
 		}
 
 	};
@@ -219,15 +137,14 @@ public class ZomblindActivity extends Activity {
 				_entorno._eventos.cancel();
 				finish();
 			} else {
-				_speaker.say(getString(R.string.speaker_button_back_exit));
-
+				_habladora.say(getString(R.string.speaker_button_back_exit));
 				salir = true;
 				return true;
 			}
 		} else if ((keyCode == KeyEvent.KEYCODE_MENU)) {
 
 			Log.d(this.getClass().getName(), "menu button pressed");
-			debug = !debug;
+			_debug.change();
 		}
 		return super.onKeyDown(keyCode, event);
 	}

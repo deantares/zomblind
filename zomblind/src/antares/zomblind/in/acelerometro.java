@@ -1,7 +1,8 @@
-package antares.zomblind.controles;
+package antares.zomblind.in;
 
 import android.content.Context;
 import android.hardware.SensorEvent;
+import antares.zomblind.ZomblindActivity;
 
 public class acelerometro {
 
@@ -29,10 +30,10 @@ public class acelerometro {
 	float min_movement = 0.0000003f; // 2f ;//1E-6f;
 
 	
-	private Context _context;
+	private ZomblindActivity _z;
 	
 	public acelerometro(Context ctx){
-		_context = ctx;
+		_z = (ZomblindActivity) ctx;
 	}
 	
 	public acelerometro() {
