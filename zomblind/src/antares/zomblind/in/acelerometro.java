@@ -10,12 +10,7 @@ public class acelerometro {
 	float last_update = 0, last_movement = 0;
 	float prevX = 0, prevY = 0, prevZ = 0;
 	float curX = 0, curY = 0, curZ = 0;
-	String res_acelerometro = "";
-	String res_acelerometroX = "";
-	String res_acelerometroY = "";
-	String res_acelerometroZ = "";
-	String res_acelerometro_anterior = "";
-
+	
 	long current_time;
 	public short X = 0, Y = 0, Z = 0;
 	boolean instanciado = false;
@@ -29,7 +24,7 @@ public class acelerometro {
 	// Sensibilidad del sensor. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
 	float min_movement = 0.0000003f; // 2f ;//1E-6f;
 
-	
+	//Contexto
 	private ZomblindActivity _z;
 	
 	public acelerometro(Context ctx){
@@ -115,6 +110,22 @@ public class acelerometro {
 	public String toString(){
 		return X+":"+Y+":"+Z;
 		
+	}
+	
+	public boolean golpe_izquierda(){
+		return X>50;
+	}
+	
+	public boolean golpe_derecha(){
+		return X<-50;
+	}
+	
+	public boolean golpe_frente(){
+		return Z<50;
+	}
+	
+	public boolean isgolpeando(){
+		return (X>50||X<-50||Z<50);
 	}
 
 }

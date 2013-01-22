@@ -57,10 +57,12 @@ public class orientacion {
 		//return Float.toString((aux < 0 ? aux + 360 : aux) % 360);
 	 float aux = (azimut - original_azimut + 180) % 360;
 	 //return Float.toString(aux);
-	  
-	 if(aux < 150){
+	 
+	 int distancia_umbral = 30;
+	 
+	 if(aux < 180-distancia_umbral){
 		 return "izquierda";
-	 }else if (aux < 210 ){
+	 }else if (aux < 180+distancia_umbral ){
 		 return "centro";
 	 }else{
 		 return "derecha";

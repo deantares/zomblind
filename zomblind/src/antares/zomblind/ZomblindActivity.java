@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import antares.zomblind.environment.*;
+import antares.zomblind.core.*;
 import antares.zomblind.in.*;
 import antares.zomblind.out.*;
 

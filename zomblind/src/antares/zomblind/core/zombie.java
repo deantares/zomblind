@@ -1,4 +1,4 @@
-package antares.zomblind.environment;
+package antares.zomblind.core;
 
 import android.content.Context;
 import android.media.MediaPlayer;
