@@ -44,7 +44,7 @@ public class ZomblindActivity extends Activity {
 	private MyRecognitionListener _listener = new MyRecognitionListener(this);
 
 	// Clase de entorno de juego
-	entorno _entorno = null;
+	public entorno _entorno = null;
 
 	// Variables booleanas de control
 	Boolean salir = false;

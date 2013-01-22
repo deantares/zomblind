@@ -121,11 +121,11 @@ public class acelerometro {
 	}
 	
 	public boolean golpe_frente(){
-		return Z>50;
+		return Z<-50;
 	}
 	
 	public boolean isgolpeando(){
-		return (X>50||X<-50||Z>50);
+		return (X>50||X<-50||Z<-50);
 	}
 
 }

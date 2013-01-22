@@ -63,6 +63,11 @@ public class debug {
 				paint);
 		canvas.drawText(_z.oido, 10, delay_text * 15,
 				paint);
+		
+		//Pintamos una cruceta
+		
+		canvas.drawText(_z._entorno._jugador.toString() , size_text, _z._pantalla.height - size_text * 6, paint);
+		
 		}
 	}
 }

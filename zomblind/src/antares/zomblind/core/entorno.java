@@ -11,6 +11,10 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 public class entorno {
+	
+	//Variables del jugador;
+	public Jugador _jugador;
+	
 	public Timer _eventos;
 	private long TASK_DELAY = 1000;
 	private long TASK_PERIOD = 2000;
@@ -93,6 +97,8 @@ public class entorno {
 		zombie1.setVolume(0, 1);
 		zombie2.setVolume(1, 0);
 		zombie3.setVolume(1, 1);
+		
+		_jugador = new Jugador(_z);
 		
 	}
 	
