@@ -11,7 +11,7 @@ import antares.zomblind.ZomblindActivity;
 public class interfaz extends View {
 	private ZomblindActivity _z;
 	Paint paint = new Paint();
-
+	
 	public interfaz(Context context) {
 		super(context);
 		_z = (ZomblindActivity) context;

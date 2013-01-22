@@ -2,12 +2,15 @@ package antares.zomblind;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,11 +21,15 @@ import antares.zomblind.in.*;
 import antares.zomblind.out.*;
 
 public class ZomblindActivity extends Activity {
+	
+	public SpeechRecognizer _sr = SpeechRecognizer.createSpeechRecognizer(this);
+	public String oido = "";
+	
 
 	// Clases de control de entrada IN
 	public acelerometro _acelerometro = new acelerometro(this);
 	public orientacion _orientacion = new orientacion(this);
-	public pantalla _pantalla = new pantalla(this);
+	public pantalla _pantalla;// = new pantalla(this);
 
 	// Clases de control de salida OUT
 	public debug _debug = new debug(this);
@@ -34,6 +41,7 @@ public class ZomblindActivity extends Activity {
 	private static SensorManager _sensorServiceOrientacion,
 			_sensorServiceAcelerometro;
 	private Sensor _sensorOrientacion, _sensorAcelerometro;
+	private MyRecognitionListener _listener = new MyRecognitionListener(this);
 
 	// Clase de entorno de juego
 	entorno _entorno = null;
@@ -54,6 +62,8 @@ public class ZomblindActivity extends Activity {
 
 		// Bloqueamos la orientación
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		_pantalla = new pantalla(this);
 
 		// Inicializamos el sensor de orientación
 		_sensorServiceOrientacion = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -93,6 +103,8 @@ public class ZomblindActivity extends Activity {
 
 		_entorno = new entorno(ZomblindActivity.this);
 		_talker = new TextToSpeech(this, _habladora);
+		
+		_sr.setRecognitionListener(_listener);
 
 	}
 
@@ -128,7 +140,6 @@ public class ZomblindActivity extends Activity {
 	};
 
 	// Capturamos las pulsaciones de teclas
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 
@@ -145,8 +156,44 @@ public class ZomblindActivity extends Activity {
 
 			Log.d(this.getClass().getName(), "menu button pressed");
 			_debug.change();
+		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
+			Log.i(this.getClass().getName(), "Volume Up button pressed");
+			//_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
+			//_sr.setRecognitionListener(_listener);
+			
+			_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
+			oido = "??";
+			//_sr.stopListening();
+			//_sr.cancel();
+			return true;
+			
+			
+		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+			Log.i(this.getClass().getName(), "Volume Down button pressed");
+			_sr.stopListening();
+			_sr.cancel();
+			//_sr.destroy();
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+	
+	public boolean onKeyUp(int keyCode, KeyEvent event){
+		if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
+			Log.i(this.getClass().getName(), "Volume Up button release");
+			//_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
+			//_sr.setRecognitionListener(_listener);
+			
+			//_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
+			_sr.stopListening();
+			//_sr.cancel();
+			return true;
+			
+			
+		}
+		
+		return super.onKeyUp(keyCode, event);
+		
 	}
 
 }

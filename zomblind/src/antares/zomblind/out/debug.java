@@ -33,8 +33,10 @@ public class debug {
 		paint.setTextSize(size_text);
 		canvas.drawText("Posición toque pantalla", 10, delay_text,
 				paint);
-		canvas.drawText("x= " + _z._pantalla.x, 10, delay_text * 2, paint);
-		canvas.drawText("y= " + _z._pantalla.y, 10, delay_text * 3, paint);
+		canvas.drawText("x= " + _z._pantalla.x + "   [0," + _z._pantalla.width + "]", 10, delay_text * 2, paint);
+		canvas.drawText("y= " + _z._pantalla.y + "   [0," + _z._pantalla.height + "]", 10, delay_text * 3, paint);
+		
+		
 		paint.setTextSize(size_text);
 		canvas.drawText("Última acción pantalla", 10, delay_text * 4,
 				paint);
@@ -55,6 +57,11 @@ public class debug {
 		canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 12,
 				paint);
 		canvas.drawText(_z._acelerometro.toString(), 10, delay_text * 13,
+				paint);
+		
+		canvas.drawText("Palabra oida", 10, delay_text * 14,
+				paint);
+		canvas.drawText(_z.oido, 10, delay_text * 15,
 				paint);
 		}
 	}
