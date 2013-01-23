@@ -17,11 +17,17 @@ public final class R {
         public static final int main=0x7f030000;
     }
     public static final class raw {
-        public static final int zombie01=0x7f040000;
+        public static final int zombie01=0x7f050000;
     }
     public static final class string {
-        public static final int app_name=0x7f050001;
-        public static final int hello=0x7f050000;
-        public static final int speaker_button_back_exit=0x7f050002;
+        public static final int app_name=0x7f060004;
+        public static final int hello=0x7f060003;
+        public static final int jugador_balas=0x7f060002;
+        public static final int jugador_stamina=0x7f060001;
+        public static final int jugador_vida=0x7f060000;
+        public static final int speaker_button_back_exit=0x7f060005;
+    }
+    public static final class xml {
+        public static final int preferences=0x7f040000;
     }
 }

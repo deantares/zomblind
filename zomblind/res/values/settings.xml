@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="jugador_vida">5</string>
+    <string name="jugador_stamina">10</string>
+    <string name="jugador_balas">0</string>
+    
+</resources>

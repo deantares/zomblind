@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 antares
+ * Copyright 2013 Antonio Fernández Ares (antares.es@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,44 +25,111 @@ public class pantalla {
 
 	public float x = 50;
 	public float y = 50;
-	
+
+	public float x0;
+	public float y0;
+
 	public int width;
 	public int height;
-	
-	public String action ="";
-	
+
+	public String action = "";
+
 	private ZomblindActivity _z;
-	
-	public pantalla(Context ctx){
+
+	public pantalla(Context ctx) {
 		_z = (ZomblindActivity) ctx;
 		Display display = _z.getWindowManager().getDefaultDisplay();
 		width = display.getWidth();
 		height = display.getHeight();
-		
-		
-	}
-	
-	public void update(MotionEvent evento){
-		
-		synchronized (this) {
-		
-		action = String.valueOf(evento.getAction());
-		if (evento.getAction() == MotionEvent.ACTION_DOWN) {
-			x = evento.getX();
-			y = evento.getY();
-			Log.v("Entorno", x + "," + y);
 
-			if (_z._orientacion.isCalibrate() == false) {
-				_z._habladora.say("Dispositivo calibrado");
-				_z._orientacion.calibrate();
+	}
+
+	public int zona(float x, float y) {
+		if (y < height * 0.25) {
+			return 1;
+
+		} else if (y < height * 0.75) {
+			if (x < width * 0.25){
+				return 3;
+			}else if(x < width * 0.75){
+				return 0;
+			}else {
+				return 4;
 			}
-		} else if (evento.getAction() == MotionEvent.EDGE_BOTTOM) {
-			x = evento.getX();
-			y = evento.getY();
-			Log.v("Entorno", x + "," + y);
+			
+
+		} else {
+			return 2;
+
 		}
+
+	}
+
+	public void update(MotionEvent evento) {
+
+		if (_z.empezar == false) {
+			_z.empezar = true;
+		} else {
+
+			if (evento.getAction() == MotionEvent.ACTION_DOWN) {
+				x = evento.getX();
+				y = evento.getY();
+
+				x0 = x;
+				y0 = y;
+			} else if (evento.getAction() == MotionEvent.ACTION_UP) {
+				x = evento.getX();
+				y = evento.getY();
+
+				if (zona(x,y)== 0 && zona(x0,y0)==0){
+					action ="disparo";
+					
+					//Codigo del disparo
+				}else if(zona(x,y)== 1 && zona(x0,y0)==0){
+					action = "info_jugador";
+					_z._entorno._jugador.info();
+					//Codigo de la información del jugador
+					
+				}else if(zona(x,y)== 2 && zona(x0,y0)==0){
+					action = "info_armas";
+					
+					//Información del arma
+					
+				}else if(zona(x,y)== 3 && zona(x0,y0)==0){
+					action = "cambio_arma_cuerpo";
+					
+					//Codigo del cambio de arma cuerpo a cuerpo
+					
+				}else if(zona(x,y)== 4 && zona(x0,y0)==0){
+					action = "cambio_arma_distancia";
+					
+					//Codigo del cambio de arma a distancia
+					
+				}
+				
+			}
+
+			synchronized (this) {
+
+				// Detectamos eventos
+
+//				action = String.valueOf(evento.getAction());
+//				if (evento.getAction() == MotionEvent.ACTION_DOWN) {
+//					x = evento.getX();
+//					y = evento.getY();
+//					Log.v("Entorno", x + "," + y);
+//
+//					if (_z._orientacion.isCalibrate() == false) {
+//						_z._habladora.say("Dispositivo calibrado");
+//						_z._orientacion.calibrate();
+//					}
+//				} else if (evento.getAction() == MotionEvent.EDGE_BOTTOM) {
+//					x = evento.getX();
+//					y = evento.getY();
+//					Log.v("Entorno", x + "," + y);
+//				}
+			}
 		}
 	}
-	
-	
+
 }

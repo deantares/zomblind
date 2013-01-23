@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 antares
+ * Copyright 2013 Antonio Fernández Ares (antares.es@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,8 @@ import antares.zomblind.core.*;
 import antares.zomblind.in.*;
 import antares.zomblind.out.*;
 
+
+
 public class ZomblindActivity extends Activity {
 	
 	public SpeechRecognizer _sr = SpeechRecognizer.createSpeechRecognizer(this);
@@ -62,7 +64,10 @@ public class ZomblindActivity extends Activity {
 	public entorno _entorno = null;
 
 	// Variables booleanas de control
-	Boolean salir = false;
+	public Boolean salir = false;
+	public Boolean empezar = false;
+	public Boolean muerto = false;
+	
 
 	// Posición Zombie
 	public String zombie = "";

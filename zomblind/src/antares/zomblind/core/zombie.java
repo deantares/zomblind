@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 antares
+ * Copyright 2013 Antonio Fernández Ares (antares.es@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import antares.zomblind.R;
 
-public class zombie extends MediaPlayer {
+public class zombie extends npc {
 	private Context _ctx;
 	
-	public zombie(Context ctx , int pos){
+	public zombie(Context ctx , int pos, int distancia, int zona){
 		_ctx = ctx;
 		MediaPlayer.create(_ctx, R.raw.zombie01);
 		this.setLooping(false);
