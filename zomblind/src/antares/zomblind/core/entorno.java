@@ -63,19 +63,19 @@ public class entorno {
 					if (!_z._talker.isSpeaking()) {
 						int a = ale.nextInt(10);
 
-//						
-//						if (a == 0) {
-//							zombie1.start();
-//							_z.zombie = "derecha";
-//						}
-//						if (a == 1) {
-//							zombie2.start();
-//							_z.zombie = "izquierda";
-//						}
-//						if (a == 2) {
-//							zombie3.start();
-//							_z.zombie = "centro";
-//						}
+						
+						if (a == 0) {
+							zombie1.start();
+							_z.zombie = "derecha";
+						}
+						if (a == 1) {
+							zombie2.start();
+							_z.zombie = "izquierda";
+						}
+						if (a == 2) {
+							zombie3.start();
+							_z.zombie = "centro";
+						}
 						// if(a == 4){_z._habladora.say("Hola Rafa");
 						// _z.zombie="amigo";}
 						// if(a == 5){_z._habladora.say("Hola Flan");
@@ -106,18 +106,22 @@ public class entorno {
 						&& _z._acelerometro.golpe_izquierda()) {
 					_z.zombie = "Muerto";
 					_z._habladora.say("¡Si!");
+					_z._vibrador.vibrar_golpe();
 				} else if (_z.zombie == "centro"
 						&& _z._acelerometro.golpe_frente()) {
 					_z.zombie = "Muerto";
 					_z._habladora.say("¡Si!");
+					_z._vibrador.vibrar_golpe();
 				} else if (_z.zombie == "derecha"
 						&& _z._acelerometro.golpe_derecha()) {
 					_z.zombie = "Muerto";
 					_z._habladora.say("¡Si!");
+					_z._vibrador.vibrar_golpe();
 				} else if (_z.zombie == "amigo"
 						&& _z._acelerometro.isgolpeando()) {
 					_z.zombie = "Nooooooooooooooooooooooooo";
 					_z._habladora.say("Fallo");
+					_z._vibrador.vibrar(5000);
 				}
 
 			}

@@ -17,15 +17,12 @@ package antares.zomblind;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,10 +36,6 @@ import antares.zomblind.out.*;
 
 public class ZomblindActivity extends Activity {
 	
-	public SpeechRecognizer _sr = SpeechRecognizer.createSpeechRecognizer(this);
-	public String oido = "";
-	
-
 	// Clases de control de entrada IN
 	public acelerometro _acelerometro = new acelerometro(this);
 	public orientacion _orientacion = new orientacion(this);
@@ -53,12 +46,12 @@ public class ZomblindActivity extends Activity {
 	public interfaz _interfaz;
 	public habladora _habladora = new habladora(this);
 	public TextToSpeech _talker;
+	public vibrador _vibrador;
 
 	// Clases manejadoras de eventos
 	private static SensorManager _sensorServiceOrientacion,
 			_sensorServiceAcelerometro;
 	private Sensor _sensorOrientacion, _sensorAcelerometro;
-	private MyRecognitionListener _listener = new MyRecognitionListener(this);
 
 	// Clase de entorno de juego
 	public entorno _entorno = null;
@@ -84,6 +77,7 @@ public class ZomblindActivity extends Activity {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		_pantalla = new pantalla(this);
+		_vibrador = new vibrador(this);
 
 		// Inicializamos el sensor de orientación
 		_sensorServiceOrientacion = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -123,9 +117,6 @@ public class ZomblindActivity extends Activity {
 
 		_entorno = new entorno(ZomblindActivity.this);
 		_talker = new TextToSpeech(this, _habladora);
-		
-		_sr.setRecognitionListener(_listener);
-
 	}
 
 	private SensorEventListener mySensorEventListenerOrientacion = new SensorEventListener() {
@@ -181,8 +172,6 @@ public class ZomblindActivity extends Activity {
 			//_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
 			//_sr.setRecognitionListener(_listener);
 			
-			_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
-			oido = "??";
 			//_sr.stopListening();
 			//_sr.cancel();
 			return true;
@@ -190,8 +179,6 @@ public class ZomblindActivity extends Activity {
 			
 		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
 			Log.i(this.getClass().getName(), "Volume Down button pressed");
-			_sr.stopListening();
-			_sr.cancel();
 			//_sr.destroy();
 			return true;
 		}
@@ -205,7 +192,6 @@ public class ZomblindActivity extends Activity {
 			//_sr.setRecognitionListener(_listener);
 			
 			//_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
-			_sr.stopListening();
 			//_sr.cancel();
 			return true;
 			

@@ -1,6 +1,5 @@
 package antares.zomblind.core;
 
-import android.R.bool;
 import android.content.Context;
 import android.media.MediaPlayer;
 import antares.zomblind.ZomblindActivity;
