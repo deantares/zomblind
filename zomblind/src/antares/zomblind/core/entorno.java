@@ -17,6 +17,7 @@ package antares.zomblind.core;
 
 import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
+
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,6 +41,10 @@ public class entorno {
 	MediaPlayer zombie1;
 	MediaPlayer zombie2;
 	MediaPlayer zombie3;
+	
+	//Variables de dificultad
+	double _atenuancion_distancia = 0.55;
+	double _max_volumen = 2;
 
 	Random ale = new Random();
 
@@ -56,19 +61,21 @@ public class entorno {
 			if (_z.empezar == true) {
 				if (_z._orientacion.isCalibrate() == true) {
 					if (!_z._talker.isSpeaking()) {
-						int a = ale.nextInt(4);
-						if (a == 0) {
-							zombie1.start();
-							_z.zombie = "derecha";
-						}
-						if (a == 1) {
-							zombie2.start();
-							_z.zombie = "izquierda";
-						}
-						if (a == 2) {
-							zombie3.start();
-							_z.zombie = "centro";
-						}
+						int a = ale.nextInt(10);
+
+//						
+//						if (a == 0) {
+//							zombie1.start();
+//							_z.zombie = "derecha";
+//						}
+//						if (a == 1) {
+//							zombie2.start();
+//							_z.zombie = "izquierda";
+//						}
+//						if (a == 2) {
+//							zombie3.start();
+//							_z.zombie = "centro";
+//						}
 						// if(a == 4){_z._habladora.say("Hola Rafa");
 						// _z.zombie="amigo";}
 						// if(a == 5){_z._habladora.say("Hola Flan");
