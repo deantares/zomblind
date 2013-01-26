@@ -21,8 +21,8 @@ import antares.zomblind.ZomblindActivity;
 
 public class orientacion {
 
-	Float azimut;
-	Float original_azimut;
+	Float azimut = 0f;
+	Float original_azimut =0f;
 	Boolean calibrado = false;
 	
 	ZomblindActivity _z;

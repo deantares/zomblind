@@ -1,44 +1,86 @@
 package antares.zomblind.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
+import java.util.Stack;
+
+import antares.zomblind.core.npcs.npc;
 
 public class npcLista {
-	
-	List<npc> _npcs_izq;
-	List<npc> _npcs_centro;
-	List<npc> _npcs_der;
-	
-	public npcLista(){
-		_npcs_izq = new ArrayList<npc>();
-		_npcs_centro = new ArrayList<npc>();
-		_npcs_der = new ArrayList<npc>();
+
+	public npc[] _npc = new npc[3];
+
+	Random pos = new Random();
+
+	Stack<npc> _npcs = new Stack<npc>();
+	private int _max_npcs = 10;
+
+	double _p = 0.3;
+
+	public npcLista() {
+		_npc[0] = null;
+		_npc[1] = null;
+		_npc[2] = null;
 	}
-	
-	public void acercar(){
-		for(npc t : _npcs_izq){
-			t.acercar();
-		}
-		for(npc t : _npcs_centro){
-			t.acercar();
-		}
-		for(npc t : _npcs_der){
-			t.acercar();
+
+	public void acercar() {
+		if (_npc[0] != null)
+			_npc[0].acercar();
+		if (_npc[1] != null)
+			_npc[1].acercar();
+		if (_npc[2] != null)
+			_npc[2].acercar();
+	}
+
+	public void play() {
+		if (_npc[0] != null)
+			_npc[0].play();
+		if (_npc[1] != null)
+			_npc[1].play();
+		if (_npc[2] != null)
+			_npc[2].play();
+	}
+
+	public void push(npc n) {
+		if (_npcs.size() < _max_npcs) {
+			_npcs.push(n);
 		}
 	}
-	
-	public void play(){
-		for(npc t : _npcs_izq){
-			t.play();
+
+	public void atacar() {
+		if (_npc[0] != null) {
+			_npc[0].atacar();
+		} else if (pos.nextDouble() < _p) {
+			if (_npcs.size() > 0) {
+				_npc[0] = _npcs.pop();
+				_npc[0]._distancia = 10;
+				_npc[0]._zona = 0;
+			}
 		}
-		for(npc t : _npcs_izq){
-			t.play();
+		if (_npc[1] != null) {
+			_npc[1].atacar();
+		} else if (pos.nextDouble() < _p) {
+			if (_npcs.size() > 0) {
+				_npc[1] = _npcs.pop();
+				_npc[1]._distancia = 10;
+				_npc[1]._zona = 1;
+			}
 		}
-		for(npc t : _npcs_izq){
-			t.play();
+		if (_npc[2] != null) {
+			_npc[2].atacar();
+		} else if (pos.nextDouble() < _p) {
+			if (_npcs.size() > 0) {
+				_npc[2] = _npcs.pop();
+				_npc[2]._distancia = 10;
+				_npc[2]._zona = 2;
+			}
 		}
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return (_npc[0] != null ? _npc[0].toString() : " - ") + "\n"
+				+ (_npc[1] != null ? _npc[1].toString() : " - ") + "\n"
+				+ (_npc[2] != null ? _npc[2].toString() : " - ");
+	}
 
 }

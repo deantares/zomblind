@@ -16,7 +16,6 @@
 
 package antares.zomblind.core;
 
-import android.R;
 import android.content.Context;
 import antares.zomblind.ZomblindActivity;
 
@@ -26,9 +25,45 @@ import antares.zomblind.ZomblindActivity;
  * 
  */
 public class Jugador {
-	public int _maxVida = 5;
-	public int _vida = 5;
-	public int _resistencia = 10;
+	
+	public class infeccion{
+		public int _max = 100;
+		public int _actual = 0;
+		
+		@Override
+		public String toString() {
+			return "infeccion [_max=" + _max + ", _actual=" + _actual + "]";
+		}
+		
+		public void add(int a){
+			_actual = _actual+a>=_max ? _max : _actual+a;
+		}
+		
+		public void sub(int a){
+			_actual = _actual-a<=0 ? 0 : _actual-a;
+		}
+		
+	}
+	
+	public class resistencia{
+		public int _max = 100;
+		public int _actual = _max;
+		@Override
+		public String toString() {
+			return "resistencia [_max=" + _max + ", _actual=" + _actual + "]";
+		}	
+		
+		public void add(int a){
+			_actual = _actual+a>=_max ? _max : _actual+a;
+		}
+		
+		public void sub(int a){
+			_actual = _actual-a<=0 ? 0 : _actual-a;
+		}
+	}
+	
+	public infeccion _infeccion = new infeccion();
+	public resistencia _resistencia = new resistencia();
 	
 	private ZomblindActivity _z;
 	
@@ -38,31 +73,31 @@ public class Jugador {
 	}
 	
 	public String toString(){
-		return "VIDA: " + _vida + "  ESTAMINA: " + _resistencia;
+		return "VIDA: " + _infeccion.toString() + "  ESTAMINA: " + _resistencia.toString();
 	}
 	
-	public void atacado(){
-		_vida = _vida==0 ? 0 : _vida--;
+	public void atacado(int a){
+		_infeccion.add(a);
 	}
-	
-	public void disparado(){
-		_vida = _vida==0 ? 0 : _vida--;
-	}
-	
+//	
+//	public void disparado(){
+//		_vida = _vida==0 ? 0 : _vida--;
+//	}
+//	
 	public boolean esVivo(){
-		return _vida==0;
+		return _infeccion._actual>0;
 	}
-	
-	public void curar(){
-		_vida = _vida == 5? 5 : _vida+1;
-		
-	}
-	
+//	
+//	public void curar(){
+//		_vida = _vida == 5? 5 : _vida+1;
+//		
+//	}
+//	
 	public void info(){
-		if (_vida==0){
-			_z._habladora.say("Muerto");
+		if (_infeccion._actual==_infeccion._max){
+			_z._habladora.say("Infectado");
 		}
-		_z._habladora.say(_vida + (_vida==1?" vida":" vidas" ) );
+		_z._habladora.say(_infeccion._actual + " % de infección" );
 	}
 	
 

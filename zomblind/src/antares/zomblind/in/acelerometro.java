@@ -34,10 +34,19 @@ public class acelerometro {
 	double degradacion = 1.05;
 	
 	//Amplitud: Como de grande es el móvimiento.
-	int amplitud = 100;
+	int amplitud_flojo = 100;
+	int amplitud_fuerte = 200;
 
-	// Sensibilidad del sensor. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
-	float min_movement = 0.0000003f; // 2f ;//1E-6f;
+	// Sensibilidad del sensor de golpe fuerte. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
+	float min_movement_fuerte = 0.00000035f; // 2f ;//1E-6f;
+	
+	// Sensibilidad del sensor de golpe normal. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
+	float min_movement_flojo = 0.00000025f; // 2f ;//1E-6f; //0.0000003f 
+	
+
+		
+		
+	
 
 	//Contexto
 	private ZomblindActivity _z;
@@ -91,8 +100,10 @@ public class acelerometro {
 			float movement_X = Math.abs(curX - prevX) / time_difference;
 			boolean direcion_X = curX > prevX ? true : false;
 
-			if (movement_X > min_movement) {
-				X = (short) (direcion_X == true ? 100 : -100);
+			if (movement_X > min_movement_fuerte) {
+				X = (short) (direcion_X == true ? amplitud_fuerte : -amplitud_fuerte);
+			}else if (movement_X > min_movement_flojo) {
+				X = (short) (direcion_X == true ? amplitud_flojo : -amplitud_flojo);
 			} else {
 				X = (short) (X/degradacion);
 			}
@@ -100,16 +111,20 @@ public class acelerometro {
 			float movement_Y = Math.abs(curY - prevY) / time_difference;
 			boolean direcion_Y = curX > prevY ? true : false;
 
-			if (movement_Y > min_movement) {
-				Y = (short) (direcion_Y == true ? 100 : -100);
+			if (movement_Y > min_movement_fuerte) {
+				Y = (short) (direcion_Y == true ? amplitud_fuerte : -amplitud_fuerte);
+			}else if (movement_Y > min_movement_flojo) {
+				Y = (short) (direcion_Y == true ? amplitud_flojo : -amplitud_flojo);
 			} else {
 				Y = (short) (Y/degradacion);
 			}
 			float movement_Z = Math.abs(curZ - prevZ) / time_difference;
 			boolean direcion_Z = curX > prevZ ? true : false;
 
-			if (movement_Z > min_movement) {
-				Z = (short) (direcion_Z == true ? 100 : -100);
+			if (movement_Z > min_movement_fuerte) {
+				Z = (short) (direcion_Z == true ? amplitud_fuerte : -amplitud_fuerte);
+			}else if (movement_Z > min_movement_flojo) {
+				Z = (short) (direcion_Z == true ? amplitud_flojo : -amplitud_flojo);
 			} else {
 				Z = (short) (Z/degradacion);
 			}

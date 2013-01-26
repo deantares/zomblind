@@ -37,6 +37,10 @@ public class debug {
 		debugactivo = !debugactivo;
 	}
 	
+	public boolean isActivo(){
+		return debugactivo;
+	}
+	
 	public void update(Canvas canvas, Paint paint){
 		
 		if(debugactivo){
@@ -67,7 +71,7 @@ public class debug {
 
 		canvas.drawText("Posición de Zombie", 10, delay_text * 10,
 				paint);
-		canvas.drawText(_z.zombie, 10, delay_text * 11, paint);
+		canvas.drawText(_z._entorno._npcs.toString(), 10, delay_text * 11, paint);
 
 		canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 12,
 				paint);

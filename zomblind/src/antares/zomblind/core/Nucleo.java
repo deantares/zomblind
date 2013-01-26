@@ -17,6 +17,7 @@ package antares.zomblind.core;
 
 import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
+import antares.zomblind.core.npcs.zombie;
 
 import java.util.Random;
 import java.util.Timer;
@@ -25,7 +26,7 @@ import java.util.TimerTask;
 import android.content.Context;
 import android.media.MediaPlayer;
 
-public class entorno {
+public class Nucleo {
 
 	// Variables del jugador;
 	public Jugador _jugador;
@@ -43,8 +44,12 @@ public class entorno {
 	MediaPlayer zombie3;
 	
 	//Variables de dificultad
-	double _atenuancion_distancia = 0.55;
-	double _max_volumen = 2;
+//	double _atenuancion_distancia_base = 2.5;
+//	double _atenuancion_distancia_expo = -0.89;
+	
+	public double _atenuancion_distancia_base = 5;
+	public double _atenuancion_distancia_expo = -0.8;
+	
 
 	Random ale = new Random();
 
@@ -62,26 +67,22 @@ public class entorno {
 				if (_z._orientacion.isCalibrate() == true) {
 					if (!_z._talker.isSpeaking()) {
 						int a = ale.nextInt(10);
-
 						
-						if (a == 0) {
-							zombie1.start();
-							_z.zombie = "derecha";
+						//Los enemigos atacan
+						_npcs.atacar();
+						
+						//Generamos enemigos
+						if(a<5){
+							//Generar zombie
+							_npcs.push(new zombie(_z));
 						}
-						if (a == 1) {
-							zombie2.start();
-							_z.zombie = "izquierda";
-						}
-						if (a == 2) {
-							zombie3.start();
-							_z.zombie = "centro";
-						}
-						// if(a == 4){_z._habladora.say("Hola Rafa");
-						// _z.zombie="amigo";}
-						// if(a == 5){_z._habladora.say("Hola Flan");
-						// _z.zombie="amigo";}
-						// if(a == 6){_z._habladora.say("Hola Ana");
-						// _z.zombie="amigo";}
+						
+						//Los acercamos
+						_npcs.acercar();
+						
+						//Reproducimos el audio
+						_npcs.play();
+						
 					}
 				}
 			}
@@ -100,7 +101,9 @@ public class entorno {
 		@Override
 		public void run() {
 
-			if (_z.empezar == true) {			
+			if (_z.empezar == true) {
+				
+				
 
 				if (_z.zombie == "izquierda"
 						&& _z._acelerometro.golpe_izquierda()) {
@@ -129,7 +132,7 @@ public class entorno {
 
 	}
 
-	public entorno(Context contexto) {
+	public Nucleo(Context contexto) {
 		_eventos = new Timer();
 		_eventos.scheduleAtFixedRate(new tarea_generacion(contexto),
 				TASK_DELAY, TASK_PERIOD);

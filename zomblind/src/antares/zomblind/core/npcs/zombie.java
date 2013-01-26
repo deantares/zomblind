@@ -17,15 +17,19 @@ package antares.zomblind.core.npcs;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import antares.zomblind.R;
-import antares.zomblind.core.npc;
+import android.net.Uri;
 
 public class zombie extends npc {
 	
-	public zombie(Context ctx , int distancia, int zona){
-		super (ctx, distancia, zona, npc.tipo.HOSTIL);
-		MediaPlayer.create(_z, R.raw.zombie01);
-		this.setLooping(false);
-	}
-	
+	public zombie(Context ctx){
+		super (ctx);
+		this.set_tipo(tipo.HOSTIL);
+		this._pi_ataque = 5;
+		this._salud = 10;
+		this._rango_ataque = 1;
+		
+		//_s0 = MediaPlayer.create(_z, R.raw.zombie_light_01);
+		
+		_s0 = MediaPlayer.create(_z, Uri.parse("android.resource://antares.zomblind/raw/"+"zombie_light_01"));
+	}	
 }

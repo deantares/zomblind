@@ -22,6 +22,12 @@ public class vibrador{
 		_v.vibrate(100);
 	}
 	
+	public void vibrarpattern(long[] p){
+		_v.vibrate(p,-1);
+	}
+	
+	
+	
 	//Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 }

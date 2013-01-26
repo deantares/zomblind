@@ -27,12 +27,9 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
-
 import antares.zomblind.core.*;
 import antares.zomblind.in.*;
 import antares.zomblind.out.*;
-
-
 
 public class ZomblindActivity extends Activity {
 	
@@ -49,19 +46,18 @@ public class ZomblindActivity extends Activity {
 	public vibrador _vibrador;
 
 	// Clases manejadoras de eventos
-	private static SensorManager _sensorServiceOrientacion,
-			_sensorServiceAcelerometro;
+	private static SensorManager _sensorServiceOrientacion;
+	private static SensorManager _sensorServiceAcelerometro;
 	private Sensor _sensorOrientacion, _sensorAcelerometro;
 
 	// Clase de entorno de juego
-	public entorno _entorno = null;
+	public Nucleo _entorno = null;
 
 	// Variables booleanas de control
 	public Boolean salir = false;
 	public Boolean empezar = false;
 	public Boolean muerto = false;
 	
-
 	// Posición Zombie
 	public String zombie = "";
 
@@ -69,8 +65,8 @@ public class ZomblindActivity extends Activity {
 		// Creamos la actividad
 		super.onCreate(savedInstanceState);
 
-		_interfaz = new interfaz(this);
 		// Definimos su vista
+		_interfaz = new interfaz(this);
 		setContentView(_interfaz);
 
 		// Bloqueamos la orientación
@@ -115,7 +111,7 @@ public class ZomblindActivity extends Activity {
 			finish();
 		}
 
-		_entorno = new entorno(ZomblindActivity.this);
+		_entorno = new Nucleo(ZomblindActivity.this);
 		_talker = new TextToSpeech(this, _habladora);
 	}
 
@@ -169,17 +165,11 @@ public class ZomblindActivity extends Activity {
 			_debug.change();
 		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
 			Log.i(this.getClass().getName(), "Volume Up button pressed");
-			//_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
-			//_sr.setRecognitionListener(_listener);
-			
-			//_sr.stopListening();
-			//_sr.cancel();
 			return true;
 			
 			
 		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
 			Log.i(this.getClass().getName(), "Volume Down button pressed");
-			//_sr.destroy();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -188,16 +178,8 @@ public class ZomblindActivity extends Activity {
 	public boolean onKeyUp(int keyCode, KeyEvent event){
 		if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
 			Log.i(this.getClass().getName(), "Volume Up button release");
-			//_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
-			//_sr.setRecognitionListener(_listener);
-			
-			//_sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
-			//_sr.cancel();
-			return true;
-			
-			
+			return true;	
 		}
-		
 		return super.onKeyUp(keyCode, event);
 		
 	}
