@@ -26,6 +26,8 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 import antares.zomblind.core.*;
 import antares.zomblind.in.*;
@@ -36,10 +38,10 @@ public class ZomblindActivity extends Activity {
 	// Clases de control de entrada IN
 	public acelerometro _acelerometro = new acelerometro(this);
 	public orientacion _orientacion = new orientacion(this);
-	public pantalla _pantalla;// = new pantalla(this);
+	public pantalla _pantalla;
 
 	// Clases de control de salida OUT
-	public debug _debug = new debug(this);
+	public debug _debug;
 	public interfaz _interfaz;
 	public habladora _habladora = new habladora(this);
 	public TextToSpeech _talker;
@@ -71,6 +73,8 @@ public class ZomblindActivity extends Activity {
 
 		// Bloqueamos la orientación
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		
 		
 		_pantalla = new pantalla(this);
 		_vibrador = new vibrador(this);
@@ -113,6 +117,7 @@ public class ZomblindActivity extends Activity {
 
 		_entorno = new Nucleo(ZomblindActivity.this);
 		_talker = new TextToSpeech(this, _habladora);
+		_debug =  new debug(this);
 	}
 
 	private SensorEventListener mySensorEventListenerOrientacion = new SensorEventListener() {
@@ -153,7 +158,8 @@ public class ZomblindActivity extends Activity {
 			Log.d(this.getClass().getName(), "back button pressed");
 			if (salir == true) {
 				_entorno._eventos.cancel();
-				finish();
+				_talker.shutdown();
+				this.finish();
 			} else {
 				_habladora.say(getString(R.string.speaker_button_back_exit));
 				salir = true;
@@ -164,13 +170,15 @@ public class ZomblindActivity extends Activity {
 			Log.d(this.getClass().getName(), "menu button pressed");
 			_debug.change();
 		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
+			this._habladora.say("Más volumen");
 			Log.i(this.getClass().getName(), "Volume Up button pressed");
-			return true;
+			return super.onKeyDown(keyCode, event);
 			
 			
 		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+			this._habladora.say("Menos volumen");
 			Log.i(this.getClass().getName(), "Volume Down button pressed");
-			return true;
+			return super.onKeyDown(keyCode, event);
 		}
 		return super.onKeyDown(keyCode, event);
 	}

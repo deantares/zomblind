@@ -64,6 +64,16 @@ public class pantalla {
 		}
 
 	}
+	
+	public int isDisparando(){
+		if(action == "disparo"){
+			action = "";
+			return _z._orientacion._zona_mirando;
+		}else{
+			return -1;
+		}
+
+	}
 
 	public void update(MotionEvent evento) {
 
@@ -105,11 +115,22 @@ public class pantalla {
 					
 					//Codigo del cambio de arma a distancia
 					
+				}else if(zona(x0,y0)== 1 && zona(x,y)==4){
+					
+					//Bajamos el volumen
+					_z._entorno._max_volume = _z._entorno._max_volume - _z._entorno._max_volume_inc;
+					_z._habladora.say("Menos volumen");
+					
+				}else if(zona(x0,y0)== 2 && zona(x,y)==4){
+					//Subimos el volumen
+					_z._entorno._max_volume = _z._entorno._max_volume + _z._entorno._max_volume_inc;
+					_z._habladora.say("Más volumen");
+					
 				}
 				
 			}
 
-			synchronized (this) {
+//			synchronized (this) {
 
 				// Detectamos eventos
 
@@ -128,7 +149,7 @@ public class pantalla {
 //					y = evento.getY();
 //					Log.v("Entorno", x + "," + y);
 //				}
-			}
+//			}
 		}
 	}
 

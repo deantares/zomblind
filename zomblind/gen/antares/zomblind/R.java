@@ -20,8 +20,30 @@ public final class R {
         public static final int main=0x7f030000;
     }
     public static final class raw {
-        public static final int zombie01=0x7f050000;
-        public static final int zombie_light_01=0x7f050001;
+        public static final int arma_pistola9mm_disparo=0x7f050000;
+        public static final int arma_pistola9mm_recargar=0x7f050001;
+        public static final int arma_punos=0x7f050002;
+        public static final int fondo_01=0x7f050003;
+        public static final int fondo_02=0x7f050004;
+        public static final int fondo_03=0x7f050005;
+        public static final int fondo_04=0x7f050006;
+        public static final int fondo_05=0x7f050007;
+        public static final int fondo_06=0x7f050008;
+        public static final int fondo_07=0x7f050009;
+        public static final int fondo_08=0x7f05000a;
+        public static final int fondo_09=0x7f05000b;
+        public static final int fondo_10=0x7f05000c;
+        public static final int fondo_11=0x7f05000d;
+        public static final int fondo_12=0x7f05000e;
+        public static final int fondo_13=0x7f05000f;
+        public static final int fondo_14=0x7f050010;
+        public static final int fondo_15=0x7f050011;
+        public static final int fondo_16=0x7f050012;
+        public static final int zombie01=0x7f050013;
+        public static final int zombie_light_01=0x7f050014;
+        public static final int zombie_light_01_acercando=0x7f050015;
+        public static final int zombie_light_01_ataque=0x7f050016;
+        public static final int zombie_light_01_muerte=0x7f050017;
     }
     public static final class string {
         public static final int app_name=0x7f060001;

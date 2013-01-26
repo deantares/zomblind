@@ -31,22 +31,23 @@ public class acelerometro {
 	boolean instanciado = false;
 	
 	//Degradación: Duración del movimiento en el tiempo. A más degradación menor duración. Mayor siempre de 0.
-	double degradacion = 1.05;
+	//double degradacion = 1.05;
+	double degradacion = 1.02;
 	
 	//Amplitud: Como de grande es el móvimiento.
 	int amplitud_flojo = 100;
 	int amplitud_fuerte = 200;
+	
+	//Umbrales
+	int umbral_flojo = 50;
+	int umbral_medio = 100;
+	int umbral_fuerte = 150;
 
 	// Sensibilidad del sensor de golpe fuerte. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
-	float min_movement_fuerte = 0.00000035f; // 2f ;//1E-6f;
+	float min_movement_fuerte =0.0000004f; // 2f ;//1E-6f;
 	
 	// Sensibilidad del sensor de golpe normal. Cuanto "mayor" valor, mayor movimiento se necesitará para detectar un cambio
-	float min_movement_flojo = 0.00000025f; // 2f ;//1E-6f; //0.0000003f 
-	
-
-		
-		
-	
+	float min_movement_flojo = 0.0000003f; // 2f ;//1E-6f; //0.0000003f 
 
 	//Contexto
 	private ZomblindActivity _z;
@@ -77,6 +78,9 @@ public class acelerometro {
 	}
 
 	public void update(SensorEvent event) {
+		
+		synchronized (this) {
+		
 		curX = event.values[0];
 		curY = event.values[1];
 		curZ = event.values[2];
@@ -134,6 +138,7 @@ public class acelerometro {
 			prevZ = curZ;
 			last_update = current_time;
 		}
+		}
 
 	}
 	
@@ -143,19 +148,43 @@ public class acelerometro {
 	}
 	
 	public boolean golpe_izquierda(){
-		return X>50;
+		return X>umbral_flojo;
+	}
+	
+	public boolean golpe_izquierda_fuerte(){
+		return X>umbral_fuerte;
 	}
 	
 	public boolean golpe_derecha(){
-		return X<-50;
+		return X<-umbral_flojo;
+	}
+	
+	public boolean golpe_derecha_fuerte(){
+		return X<-umbral_fuerte;
 	}
 	
 	public boolean golpe_frente(){
-		return Z<-50;
+		return Z<-umbral_flojo;
+	}
+	
+	public boolean golpe_frente_fuerte(){
+		return Z<-umbral_fuerte;
+	}
+	
+	public boolean recargar(){
+		return Y<-umbral_flojo;
+	}
+	
+	public boolean lanzar(){
+		return Y>umbral_medio;
+	}
+	
+	public boolean esquivar(){
+		return Z>umbral_medio;
 	}
 	
 	public boolean isgolpeando(){
-		return (X>50||X<-50||Z<-50);
+		return (X>umbral_flojo||X<-umbral_flojo||Z<-umbral_flojo);
 	}
 
 }

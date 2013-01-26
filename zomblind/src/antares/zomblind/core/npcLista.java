@@ -3,6 +3,7 @@ package antares.zomblind.core;
 import java.util.Random;
 import java.util.Stack;
 
+import antares.zomblind.core.Armas.Arma;
 import antares.zomblind.core.npcs.npc;
 
 public class npcLista {
@@ -46,9 +47,9 @@ public class npcLista {
 		}
 	}
 
-	public void atacar() {
+	public void ataque() {
 		if (_npc[0] != null) {
-			_npc[0].atacar();
+			_npc[0].ataque();
 		} else if (pos.nextDouble() < _p) {
 			if (_npcs.size() > 0) {
 				_npc[0] = _npcs.pop();
@@ -57,7 +58,7 @@ public class npcLista {
 			}
 		}
 		if (_npc[1] != null) {
-			_npc[1].atacar();
+			_npc[1].ataque();
 		} else if (pos.nextDouble() < _p) {
 			if (_npcs.size() > 0) {
 				_npc[1] = _npcs.pop();
@@ -66,7 +67,7 @@ public class npcLista {
 			}
 		}
 		if (_npc[2] != null) {
-			_npc[2].atacar();
+			_npc[2].ataque();
 		} else if (pos.nextDouble() < _p) {
 			if (_npcs.size() > 0) {
 				_npc[2] = _npcs.pop();
@@ -74,6 +75,20 @@ public class npcLista {
 				_npc[2]._zona = 2;
 			}
 		}
+	}
+	
+	public void atacar(int zona, Arma arma){
+		//Existe npc en la zona
+		if(_npc[zona]!=null){
+			if(_npc[zona]._distancia <= arma._alcance){
+				if (_npc[zona].atacar(arma)){
+					//El npc ha muerto
+					_npc[zona] = null;
+				}
+			}
+			
+		}
+		
 	}
 
 	@Override

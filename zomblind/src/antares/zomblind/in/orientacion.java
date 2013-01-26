@@ -25,6 +25,10 @@ public class orientacion {
 	Float original_azimut =0f;
 	Boolean calibrado = false;
 	
+	//Zona 0 - izquierda ,1 - centro ,2 - derecha
+	
+	int _zona_mirando=-1;
+	
 	ZomblindActivity _z;
 	
 	public orientacion(Context ctx){
@@ -60,6 +64,19 @@ public class orientacion {
 		synchronized (this) {
 			azimut = event.values[0];
 		}
+		
+		float aux = (azimut - original_azimut + 180) % 360;
+		 //return Float.toString(aux);
+		 
+		 int distancia_umbral = 30;
+		 
+		 if(aux < 180-distancia_umbral){
+			_zona_mirando =0;
+		 }else if (aux < 180+distancia_umbral ){
+			 _zona_mirando = 1;
+		 }else{
+			 _zona_mirando = 2;
+		 }
 		
 	}
 	

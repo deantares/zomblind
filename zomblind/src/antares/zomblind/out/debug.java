@@ -15,73 +15,197 @@
  ******************************************************************************/
 package antares.zomblind.out;
 
+import java.util.ArrayList;
+
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Rect;
+import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
+import antares.zomblind.core.Armas.tipo_arma;
 
 public class debug {
 	private ZomblindActivity _z;
-	
+
 	Boolean debugactivo = true;
 	int size_text = 15;
 	int delay_text = 18;
-	int conta=0;
-	
-	public debug(Context ctx){
+	int conta = 0;
+	int conta_delay = 0;
+	int conta_max_delay = 5;
+
+	ArrayList<Bitmap> _fondos;
+
+	public debug(Context ctx) {
 		_z = (ZomblindActivity) ctx;
+		_fondos = new ArrayList<Bitmap>();
+
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_01));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_02));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_03));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_04));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_05));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_06));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_07));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_08));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_09));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_10));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_11));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_12));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_13));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_14));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_15));
+		_fondos.add(BitmapFactory.decodeResource(_z.getResources(),
+				R.raw.fondo_16));
+
 	}
-	
-	public void change(){
+
+	public void change() {
 		debugactivo = !debugactivo;
 	}
-	
-	public boolean isActivo(){
+
+	public boolean isActivo() {
 		return debugactivo;
 	}
-	
-	public void update(Canvas canvas, Paint paint){
-		
-		if(debugactivo){
-		
-		canvas.drawColor(Color.LTGRAY);
-		paint.setColor(Color.GREEN);
-		canvas.drawCircle(_z._pantalla.x, _z._pantalla.y, 20, paint);
-		paint.setColor(Color.BLACK);
-		paint.setTextSize(size_text);
-		canvas.drawText("Posición toque pantalla", 10, delay_text,
-				paint);
-		canvas.drawText("x= " + _z._pantalla.x + "   [0," + _z._pantalla.width + "]", 10, delay_text * 2, paint);
-		canvas.drawText("y= " + _z._pantalla.y + "   [0," + _z._pantalla.height + "]", 10, delay_text * 3, paint);
-		
-		
-		paint.setTextSize(size_text);
-		canvas.drawText("Última acción pantalla", 10, delay_text * 4,
-				paint);
-		canvas.drawText(_z._pantalla.action, 10, delay_text * 5, paint);
-		canvas.drawText("Posición de mira", 10, delay_text * 6, paint);
-		canvas.drawText(_z._orientacion.toString(), 10, delay_text * 7,
-				paint);
-		canvas.drawText("Posición de mira (mirando)", 10,
-				delay_text * 8, paint);
 
-		canvas.drawText(_z._orientacion.mirando(), 10, delay_text * 9,
-				paint);
+	public void update(Canvas canvas, Paint paint) {
+		canvas.drawBitmap(_fondos.get(conta), null, new Rect(0, 0,
+				_z._pantalla.width, _z._pantalla.height), paint);
+		if (conta_delay == conta_max_delay) {
+			conta = conta == 15 ? 0 : conta + 1;
+			conta_delay = 0;
+		} else {
+			conta_delay++;
+		}
 
-		canvas.drawText("Posición de Zombie", 10, delay_text * 10,
-				paint);
-		canvas.drawText(_z._entorno._npcs.toString(), 10, delay_text * 11, paint);
+		if (debugactivo) {
 
-		canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 12,
-				paint);
-		canvas.drawText(_z._acelerometro.toString(), 10, delay_text * 13,
-				paint);
-		
-		//Pintamos una cruceta
-		
-		canvas.drawText(_z._entorno._jugador.toString() , size_text, _z._pantalla.height - size_text * 6, paint);
-		
+
+			//Pintamos "la posición";
+			paint.setColor(Color.GRAY);
+			canvas.drawCircle(_z._pantalla.x, _z._pantalla.y, 20, paint);
+
+			//Configuración básica del texto
+			paint.setColor(Color.GRAY);
+			paint.setTextSize(size_text);
+
+			//Pintamos la barra de Infección
+			paint.setColor(Color.GRAY);
+			paint.setStrokeWidth(1);
+			canvas.drawText("Infección", 5, 15, paint);
+			canvas.drawRect(0, 20, _z._pantalla.width, 35, paint);
+
+			if (_z._entorno._jugador._infeccion._actual > 0) {
+				paint.setStrokeWidth(10);
+				canvas.drawRect(0, 25, ((_z._pantalla.width)
+						* _z._entorno._jugador._infeccion._actual / 100), 30,
+						paint);
+				paint.setStrokeWidth(1);
+				paint.setColor(Color.BLACK);
+				canvas.drawText(
+						Integer.toString(_z._entorno._jugador._infeccion._actual),
+						((_z._pantalla.width)
+								* _z._entorno._jugador._infeccion._actual / 100) - 14,
+						32, paint);
+			}
+			
+			
+			//Pintamos la barra de Stamina
+			paint.setColor(Color.GRAY);
+			paint.setStrokeWidth(1);
+			canvas.drawText("Stamina", 5, 45, paint);
+			canvas.drawRect(0, 50, _z._pantalla.width, 65, paint);
+
+			if (_z._entorno._jugador._resistencia._actual > 0) {
+				paint.setStrokeWidth(10);
+				canvas.drawRect(0, 55, ((_z._pantalla.width)
+						* _z._entorno._jugador._resistencia._actual / 100), 60,
+						paint);
+				paint.setStrokeWidth(1);
+				paint.setColor(Color.BLACK);
+				canvas.drawText(
+						Integer.toString(_z._entorno._jugador._resistencia._actual), 5,
+						62, paint);
+			}
+			
+			
+			
+			
+			
+
+			paint.setStyle(Style.STROKE);
+
+			paint.setColor(Color.GRAY);
+			canvas.drawText(_z._entorno._jugador.toString(), 5, delay_text * 5, paint);
+			
+			canvas.drawText(_z._entorno._jugador._armas.getArma(tipo_arma.CUERPO).toString(), 5, delay_text * 6, paint);
+			canvas.drawText(_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA).toString(), 5, delay_text * 7, paint);
+			canvas.drawText(_z._entorno._jugador._armas.getArma(tipo_arma.ARROJADIZA).toString(), 5, delay_text * 8, paint);
+			canvas.drawText(_z._entorno._jugador._armas.getArma(tipo_arma.ESPECIAL).toString(), 5, delay_text * 9, paint);
+			
+			canvas.drawText("X - Y - Z: " + _z._acelerometro.toString(), 5, delay_text * 10, paint);
+			
+			canvas.drawText(_z._entorno._npcs._npc[0]!=null?_z._entorno._npcs._npc[0].toString():"--null--", 5, delay_text * 11, paint);
+			canvas.drawText(_z._entorno._npcs._npc[1]!=null?_z._entorno._npcs._npc[1].toString():"--null--", 5, delay_text * 12, paint);
+			canvas.drawText(_z._entorno._npcs._npc[2]!=null?_z._entorno._npcs._npc[2].toString():"--null--", 5, delay_text * 13, paint);
+			
+			canvas.drawText("Posición de mira (mirando): " + _z._orientacion.mirando(), 10, delay_text * 15,  paint);
+			
+			/*
+			 * canvas.drawText("Pantalla:", 10, delay_text, paint);
+			 * canvas.drawText("x= " + _z._pantalla.x + "   [0," +
+			 * _z._pantalla.width + "]", 10, delay_text * 2, paint);
+			 * canvas.drawText("y= " + _z._pantalla.y + "   [0," +
+			 * _z._pantalla.height + "]", 10, delay_text * 3, paint);
+			 * 
+			 * 
+			 * paint.setTextSize(size_text);
+			 * canvas.drawText("Última acción pantalla", 10, delay_text * 4,
+			 * paint); canvas.drawText(_z._pantalla.action, 10, delay_text * 5,
+			 * paint); canvas.drawText("Posición de mira", 10, delay_text * 6,
+			 * paint); canvas.drawText(_z._orientacion.toString(), 10,
+			 * delay_text * 7, paint);
+			 * canvas.drawText("Posición de mira (mirando)", 10, delay_text * 8,
+			 * paint);
+			 * 
+			 * canvas.drawText(_z._orientacion.mirando(), 10, delay_text * 9,
+			 * paint);
+			 * 
+			 * canvas.drawText("Posición de Zombie", 10, delay_text * 10,
+			 * paint); canvas.drawText(_z._entorno._npcs.toString(), 10,
+			 * delay_text * 11, paint);
+			 * 
+			 * canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 12,
+			 * paint); canvas.drawText(_z._acelerometro.toString(), 10,
+			 * delay_text * 13, paint);
+			 * 
+			 * //Pintamos una cruceta
+			 * 
+			 * canvas.drawText(_z._entorno._jugador.toString() , size_text,
+			 * _z._pantalla.height - size_text * 6, paint);
+			 */
+
 		}
 	}
 }

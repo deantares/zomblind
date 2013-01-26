@@ -35,11 +35,11 @@ public class Jugador {
 			return "infeccion [_max=" + _max + ", _actual=" + _actual + "]";
 		}
 		
-		public void add(int a){
+		public void sumar(int a){
 			_actual = _actual+a>=_max ? _max : _actual+a;
 		}
 		
-		public void sub(int a){
+		public void restar(int a){
 			_actual = _actual-a<=0 ? 0 : _actual-a;
 		}
 		
@@ -48,28 +48,38 @@ public class Jugador {
 	public class resistencia{
 		public int _max = 100;
 		public int _actual = _max;
+		
+		public int _ratio_regeneracion = 2;
+		
 		@Override
 		public String toString() {
 			return "resistencia [_max=" + _max + ", _actual=" + _actual + "]";
 		}	
 		
-		public void add(int a){
+		public void sumar(int a){
 			_actual = _actual+a>=_max ? _max : _actual+a;
 		}
 		
-		public void sub(int a){
+		public void restar(int a){
 			_actual = _actual-a<=0 ? 0 : _actual-a;
+		}
+		
+		public void regenerar(){
+			this.sumar(_ratio_regeneracion);
 		}
 	}
 	
 	public infeccion _infeccion = new infeccion();
 	public resistencia _resistencia = new resistencia();
+	public Armas _armas;
 	
 	private ZomblindActivity _z;
 	
 	
 	public Jugador (Context ctx){
 		_z = (ZomblindActivity) ctx;
+		
+		_armas = new Armas(_z);
 	}
 	
 	public String toString(){
@@ -77,7 +87,7 @@ public class Jugador {
 	}
 	
 	public void atacado(int a){
-		_infeccion.add(a);
+		_infeccion.sumar(a);
 	}
 //	
 //	public void disparado(){
