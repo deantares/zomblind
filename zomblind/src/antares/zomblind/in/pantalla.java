@@ -16,10 +16,10 @@
 package antares.zomblind.in;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import antares.zomblind.ZomblindActivity;
+import antares.zomblind.core.Armas.tipo_arma;
 
 public class pantalla {
 
@@ -102,7 +102,6 @@ public class pantalla {
 					
 				}else if(zona(x,y)== 2 && zona(x0,y0)==0){
 					action = "info_armas";
-					
 					//Información del arma
 					
 				}else if(zona(x,y)== 3 && zona(x0,y0)==0){
@@ -115,17 +114,11 @@ public class pantalla {
 					
 					//Codigo del cambio de arma a distancia
 					
-				}else if(zona(x0,y0)== 1 && zona(x,y)==4){
-					
-					//Bajamos el volumen
-					_z._entorno._max_volume = _z._entorno._max_volume - _z._entorno._max_volume_inc;
-					_z._habladora.say("Menos volumen");
-					
-				}else if(zona(x0,y0)== 2 && zona(x,y)==4){
+				}else if(zona(x0,y0)== 4 && zona(x,y)==4){
 					//Subimos el volumen
-					_z._entorno._max_volume = _z._entorno._max_volume + _z._entorno._max_volume_inc;
-					_z._habladora.say("Más volumen");
-					
+					_z._entorno._jugador._armas.next(tipo_arma.DISTANCIA);
+					//_z._entorno._max_volume = _z._entorno._max_volume + _z._entorno._max_volume_inc;
+					_z._habladora.say(_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA)._name);
 				}
 				
 			}

@@ -115,7 +115,7 @@ public class ZomblindActivity extends Activity {
 			finish();
 		}
 
-		_entorno = new Nucleo(ZomblindActivity.this);
+		_entorno = new Nucleo(this);
 		_talker = new TextToSpeech(this, _habladora);
 		_debug =  new debug(this);
 	}

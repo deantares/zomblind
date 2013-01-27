@@ -3,7 +3,7 @@ package antares.zomblind.core;
 import java.util.Random;
 import java.util.Stack;
 
-import antares.zomblind.core.Armas.Arma;
+import antares.zomblind.core.Arma;
 import antares.zomblind.core.npcs.npc;
 
 public class npcLista {

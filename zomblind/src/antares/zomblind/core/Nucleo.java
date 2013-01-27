@@ -172,18 +172,6 @@ public class Nucleo {
 		_eventos.scheduleAtFixedRate(new tarea_comprobacion(contexto),
 				TASK_DELAY, TASK_PERIOD / 4);
 
-		// zombie1 = MediaPlayer.create(_z, R.raw.zombie01);
-		// zombie2 = MediaPlayer.create(_z, R.raw.zombie01);
-		// zombie3 = MediaPlayer.create(_z, R.raw.zombie01);
-		//
-		// zombie1.setLooping(false);
-		// zombie2.setLooping(false);
-		// zombie3.setLooping(false);
-		//
-		// zombie1.setVolume(0, 1);
-		// zombie2.setVolume(1, 0);
-		// zombie3.setVolume(1, 1);
-
 		_jugador = new Jugador(_z);
 
 	}
