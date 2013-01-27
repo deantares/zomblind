@@ -1,9 +1,8 @@
-package antares.zomblind.core;
+package antares.zomblind.core.items;
 
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
 
@@ -35,20 +34,53 @@ public class Armas {
 		this._lista = new ArrayList<Arma>();
 		this._lista.add(0, new Arma(_z, "Ninguna"));
 		
-		this._lista.add(1, new Arma(_z, "Puños", 2, 12, tipo_arma.CUERPO,
-				tipo_arma_recargar.NULO, 0, 0, 0, 0, 1, 5, 0, 0, R.raw.arma_punos,
-				-1));
-		this._lista.add(new Arma(_z, "Pistola 9mm", 6, 12,
-				tipo_arma.DISTANCIA, tipo_arma_recargar.AUTO, 15, 15, 30, 90, 1, 5,
-				0, 0, R.raw.arma_pistola9mm_disparo_corto, R.raw.arma_pistola9mm_recargar));
-		this._lista.add(new Arma(_z, "Rifle Caza", 10, 25,
-				tipo_arma.DISTANCIA, tipo_arma_recargar.MANUAl, 1, 1, 30, 30, 1, 5,
-				0, 0, R.raw.arma_rfilecaza_disparo, R.raw.arma_rfilecaza_recargar));
+		this._lista.add(1, new Arma(_z, "Puños",
+				2, 12,
+				tipo_arma.CUERPO,
+				tipo_arma_recargar.NULO,
+				0, 0, 0, 0,
+				1, 5,
+				0, 0,
+				R.raw.arma_punos, -1,
+				new long[]{100,1000},
+				null));
+		
+		this._lista.add(new Arma(_z, "Katana",
+				3, 40, //Alcance, Daño
+				tipo_arma.CUERPO, //Tipo de arma
+				tipo_arma_recargar.NULO, //Tipo de recargue
+				0, 0, //_arma_municion, _arma_max_municion
+				0, 0, //_municion,_municion_max,
+				1, 20, //Estado , Cansancio
+				0, 0,
+				R.raw.arma_punos, -1,
+				new long[]{100,100},
+				null));
+		
+		
+		this._lista.add(new Arma(_z, "Pistola 9mm",
+				6, 12,
+				tipo_arma.DISTANCIA, tipo_arma_recargar.AUTO,
+				15, 15, 30, 90,
+				1, 5,
+				0, 0,
+				R.raw.arma_pistola9mm_disparo_corto, R.raw.arma_pistola9mm_recargar,
+				new long[]{20,1000},
+				new long[]{20,1000,20,200}));
+		this._lista.add(new Arma(_z, "Rifle Caza",
+				10, 25,
+				tipo_arma.DISTANCIA, tipo_arma_recargar.MANUAl,
+				1, 1, 30, 30,
+				1, 5,
+				0, 0,
+				R.raw.arma_rfilecaza_disparo, R.raw.arma_rfilecaza_recargar,
+				new long[]{20,2000},
+				new long[]{20,580,80,800,1000,1000}));
 
 		for(Arma a:this._lista){a._descubierta = true;};
 		
 		this._current_cuerpo = 1;
-		this._current_distancia = 2;
+		this._current_distancia = 3;
 		this._current_arrojadiza = 0;
 		this._current_especial = 0;
 
@@ -72,8 +104,7 @@ public class Armas {
 	public void next(Armas.tipo_arma t) {
 		int i;
 		boolean encontrado = false;
-		switch (t) {
-		case CUERPO:
+		if(t==tipo_arma.CUERPO){
 			i = this._current_cuerpo;
 			do {
 				i++;
@@ -84,7 +115,7 @@ public class Armas {
 				}
 			} while (i != this._current_cuerpo && !encontrado);
 			this._current_cuerpo = i;
-		case DISTANCIA:
+		}else if(t==tipo_arma.DISTANCIA){
 			i = this._current_distancia;
 			do {
 				i++;
@@ -95,7 +126,7 @@ public class Armas {
 				}
 			} while (i != this._current_distancia && !encontrado);
 			this._current_distancia = i;
-		case ARROJADIZA:
+		}else if(t==tipo_arma.ARROJADIZA){ 
 			i = this._current_arrojadiza;
 			do {
 				i++;
@@ -106,7 +137,7 @@ public class Armas {
 				}
 			} while (i != this._current_arrojadiza && !encontrado);
 			this._current_arrojadiza = i;
-		case ESPECIAL:
+		}else if(t==tipo_arma.CUERPO){
 			i = this._current_especial;
 			do {
 				i++;
@@ -118,7 +149,6 @@ public class Armas {
 			} while (i != this._current_especial && !encontrado);
 			this._current_especial = i;
 		}
-
 	}
 
 	// Declaramos el listado de armas básicas como constantes

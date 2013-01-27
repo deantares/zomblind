@@ -3,8 +3,8 @@ package antares.zomblind.core.npcs;
 import android.content.Context;
 import android.media.MediaPlayer;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.Armas.*;
-import antares.zomblind.core.Arma;
+import antares.zomblind.core.items.Arma;
+import antares.zomblind.core.items.Armas.*;
 
 public/* abstract */class npc {
 
@@ -14,7 +14,7 @@ public/* abstract */class npc {
 	public int _zona;
 
 	// Distancia en metros: 1,2,3,4,5,6,7,8,9,10
-	public int _distancia;
+	public double _distancia;
 
 	protected tipo_npc _tipo;
 	protected int _pi_ataque;

@@ -26,15 +26,13 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 import antares.zomblind.core.*;
 import antares.zomblind.in.*;
 import antares.zomblind.out.*;
 
 public class ZomblindActivity extends Activity {
-	
+
 	// Clases de control de entrada IN
 	public acelerometro _acelerometro = new acelerometro(this);
 	public orientacion _orientacion = new orientacion(this);
@@ -59,9 +57,6 @@ public class ZomblindActivity extends Activity {
 	public Boolean salir = false;
 	public Boolean empezar = false;
 	public Boolean muerto = false;
-	
-	// Posición Zombie
-	public String zombie = "";
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// Creamos la actividad
@@ -73,9 +68,7 @@ public class ZomblindActivity extends Activity {
 
 		// Bloqueamos la orientación
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
-		
-		
+
 		_pantalla = new pantalla(this);
 		_vibrador = new vibrador(this);
 
@@ -117,7 +110,7 @@ public class ZomblindActivity extends Activity {
 
 		_entorno = new Nucleo(this);
 		_talker = new TextToSpeech(this, _habladora);
-		_debug =  new debug(this);
+		_debug = new debug(this);
 	}
 
 	private SensorEventListener mySensorEventListenerOrientacion = new SensorEventListener() {
@@ -140,9 +133,8 @@ public class ZomblindActivity extends Activity {
 
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		}
-
+		
 		public void onSensorChanged(SensorEvent event) {
-
 			synchronized (this) {
 				_acelerometro.update(event);
 			}
@@ -154,7 +146,6 @@ public class ZomblindActivity extends Activity {
 	// Capturamos las pulsaciones de teclas
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-
 			Log.d(this.getClass().getName(), "back button pressed");
 			if (salir == true) {
 				_entorno._eventos.cancel();
@@ -166,30 +157,23 @@ public class ZomblindActivity extends Activity {
 				return true;
 			}
 		} else if ((keyCode == KeyEvent.KEYCODE_MENU)) {
-
-			Log.d(this.getClass().getName(), "menu button pressed");
 			_debug.change();
-		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
+		} else if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
 			this._habladora.say("Más volumen");
-			Log.i(this.getClass().getName(), "Volume Up button pressed");
 			return super.onKeyDown(keyCode, event);
-			
-			
-		}else if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+
+		} else if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
 			this._habladora.say("Menos volumen");
-			Log.i(this.getClass().getName(), "Volume Down button pressed");
 			return super.onKeyDown(keyCode, event);
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
-	public boolean onKeyUp(int keyCode, KeyEvent event){
+
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
 			Log.i(this.getClass().getName(), "Volume Up button release");
-			return true;	
+			return true;
 		}
 		return super.onKeyUp(keyCode, event);
-		
 	}
-
 }

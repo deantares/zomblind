@@ -15,12 +15,10 @@
  ******************************************************************************/
 package antares.zomblind.core;
 
-import antares.zomblind.R;
 import antares.zomblind.R.raw;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.Armas.tipo_arma;
+import antares.zomblind.core.items.Armas.tipo_arma;
 import antares.zomblind.core.npcs.npc;
-import antares.zomblind.core.npcs.zombie;
 import antares.zomblind.core.npcs.npc.tipo_npc;
 
 import java.util.Random;
@@ -28,8 +26,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.provider.ContactsContract.RawContacts;
 
 public class Nucleo {
 
@@ -45,9 +41,6 @@ public class Nucleo {
 	public npcLista _npcs = new npcLista();
 
 	// Variables de dificultad
-	// double _atenuancion_distancia_base = 2.5;
-	// double _atenuancion_distancia_expo = -0.89;
-
 	public double _atenuancion_distancia_base = 5;
 	public double _atenuancion_distancia_expo = -0.8;
 
@@ -62,7 +55,6 @@ public class Nucleo {
 		public tarea_generacion(Context contexto) {
 			// TODO Auto-generated constructor stub
 			_z = (ZomblindActivity) contexto;
-
 		}
 
 		@Override
@@ -77,7 +69,7 @@ public class Nucleo {
 						_jugador._resistencia.regenerar();
 
 						// Generamos enemigos
-						if (a < 1) {
+						if (a < 5) {
 							// Generar zombie
 
 							// public npc(Context ctx, tipo_npc _tipo,
@@ -109,8 +101,6 @@ public class Nucleo {
 	}
 
 	private class tarea_comprobacion extends TimerTask {
-		int a = 0;
-
 		public tarea_comprobacion(Context contexto) {
 			// TODO Auto-generated constructor stub
 			_z = (ZomblindActivity) contexto;

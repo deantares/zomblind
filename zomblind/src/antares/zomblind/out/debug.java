@@ -18,7 +18,6 @@ package antares.zomblind.out;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -28,7 +27,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.Armas.tipo_arma;
+import antares.zomblind.core.items.Armas.tipo_arma;
 
 public class debug {
 	private ZomblindActivity _z;
