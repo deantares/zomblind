@@ -16,14 +16,6 @@ public class Armas {
 	public enum tipo_arma_recargar {
 		NULO, AUTO, MANUAl
 	}
-	
-	public enum nombre_arma{
-		NULO, MANOS, PISTOLA9mm;
-
-		public String toString(){
-			return null;
-		}
-	}
 
 	public class Arma {
 
@@ -52,16 +44,10 @@ public class Armas {
 		double _prob_critico;
 		double _cantidad_critico;
 
+		//Constructor para arma "vacia"
 		public Arma(Context ctx, String name) {
-			switch (name) {
-			case "puños":
-				this(_z, "Puños", 2, 12, tipo_arma.CUERPO,tipo_arma_recargar.NULO, 0, 0, 0, 0, 1, 5, 0, 0,R.raw.arma_punos, -1);
-				break;
-
-			default:
-				break;
-			}
-			
+			_z = (ZomblindActivity) ctx;
+				//this(_z, "Puños", 2, 12, tipo_arma.CUERPO,tipo_arma_recargar.NULO, 0, 0, 0, 0, 1, 5, 0, 0,R.raw.arma_punos, -1);
 			
 			this._z = (ZomblindActivity) ctx;
 			this._name = name;
@@ -73,12 +59,12 @@ public class Armas {
 			this._estado = 0;
 			this._cansancio = 0;
 			
-			this(ctx, "Ninguna");
+			//this(ctx, "Ninguna");
 			
-			this._lista.add(1, new Arma);
-			this._lista.add(new Arma(_z, "Pistola 9mm", 6, 12, tipo_arma.DISTANCIA,
-					tipo_arma_recargar.AUTO, 15, 15, 30, 90, 1, 5, 0, 0,
-					R.raw.arma_pistola9mm_disparo, R.raw.arma_pistola9mm_recargar));
+//			this._lista.add(1, new Arma);
+//			this._lista.add(new Arma(_z, "Pistola 9mm", 6, 12, tipo_arma.DISTANCIA,
+//					tipo_arma_recargar.AUTO, 15, 15, 30, 90, 1, 5, 0, 0,
+//					R.raw.arma_pistola9mm_disparo, R.raw.arma_pistola9mm_recargar));
 
 			
 		}
@@ -129,7 +115,6 @@ public class Armas {
 					this._arma_municion--;
 					_S_ataque.setVolume(_z._entorno._max_volume,_z._entorno._max_volume);
 					_S_ataque.start();
-
 					return true;
 				} else {
 					return false;

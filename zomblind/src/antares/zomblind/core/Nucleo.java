@@ -119,9 +119,7 @@ public class Nucleo {
 
 		@Override
 		public void run() {
-
 			// Miramos que eventos de control se han activado;
-
 			if (_z.empezar == true) {
 
 				if (_z._acelerometro.golpe_izquierda()) {

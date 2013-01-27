@@ -34,8 +34,8 @@ public class debug {
 	private ZomblindActivity _z;
 
 	Boolean debugactivo = true;
-	int size_text = 15;
-	int delay_text = 18;
+	int size_text = 11;
+	int delay_text = 15;
 	int conta = 0;
 	int conta_delay = 0;
 	int conta_max_delay = 5;
@@ -100,11 +100,19 @@ public class debug {
 		}
 
 		if (debugactivo) {
-
-
 			//Pintamos "la posición";
 			paint.setColor(Color.GRAY);
 			canvas.drawCircle(_z._pantalla.x, _z._pantalla.y, 20, paint);
+			
+			//Rayas de zonas
+			paint.setColor(Color.RED);
+			paint.setStrokeWidth(1);
+			canvas.drawRect((float) 0, (float) (_z._pantalla.height*0.25) , (float) _z._pantalla.width, (float) (_z._pantalla.height*0.25), paint);
+			canvas.drawRect((float) 0, (float) (_z._pantalla.height*0.75) , (float) _z._pantalla.width, (float) (_z._pantalla.height*0.75), paint);
+			
+			canvas.drawRect((float) (_z._pantalla.width*0.25), (float) (_z._pantalla.height*0.75) , (float) _z._pantalla.width, (float) (_z._pantalla.height*0.25), paint);
+			canvas.drawRect((float) (_z._pantalla.width*0.75), (float) (_z._pantalla.height*0.75) , (float) _z._pantalla.width, (float) (_z._pantalla.height*0.25), paint);
+			
 
 			//Configuración básica del texto
 			paint.setColor(Color.GRAY);
@@ -148,10 +156,6 @@ public class debug {
 						Integer.toString(_z._entorno._jugador._resistencia._actual), 5,
 						62, paint);
 			}
-			
-			
-			
-			
 			
 
 			paint.setStyle(Style.STROKE);
@@ -199,9 +203,7 @@ public class debug {
 			 * canvas.drawText("Acelerómetro: X - Y - Z", 10, delay_text * 12,
 			 * paint); canvas.drawText(_z._acelerometro.toString(), 10,
 			 * delay_text * 13, paint);
-			 * 
-			 * //Pintamos una cruceta
-			 * 
+			 * 			 * 
 			 * canvas.drawText(_z._entorno._jugador.toString() , size_text,
 			 * _z._pantalla.height - size_text * 6, paint);
 			 */
