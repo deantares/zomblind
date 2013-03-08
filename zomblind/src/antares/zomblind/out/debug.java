@@ -174,6 +174,8 @@ public class debug {
 			canvas.drawText(_z._entorno._npcs._npc[2]!=null?_z._entorno._npcs._npc[2].toString():"--null--", 5, delay_text * 13, paint);
 			
 			canvas.drawText("Posición de mira (mirando): " + _z._orientacion.mirando(), 10, delay_text * 15,  paint);
+			canvas.drawText("Posición de mira (original_azimut): " + _z._orientacion.original_azimut, 10, delay_text * 16,  paint);
+			canvas.drawText("Posición de mira (azimut): " + _z._orientacion.azimut, 10, delay_text * 17,  paint);
 			
 			/*
 			 * canvas.drawText("Pantalla:", 10, delay_text, paint);
