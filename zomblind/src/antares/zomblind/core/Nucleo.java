@@ -79,7 +79,7 @@ public class Nucleo {
 							// int _S_muerte, int _S_espcial, long[]
 							// _vibra_patron) {
 
-							_npcs.push(new npc(_z, tipo_npc.HOSTIL, 5, 10, 1,
+							_npcs.push(new npc(_z, tipo_npc.HOSTIL, 5, 10, 1, 1,
 									0, 0, raw.zombie_light_01_acercando,
 									raw.zombie_light_01_ataque,
 									raw.zombie_light_01_muerte, -1));

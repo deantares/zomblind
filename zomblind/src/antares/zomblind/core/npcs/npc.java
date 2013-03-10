@@ -20,6 +20,7 @@ public/* abstract */class npc {
 	protected int _pi_ataque;
 	protected int _salud;
 	protected int _rango_ataque;
+	protected int _velocidad;
 
 	// La armadura "resta" daño que recibe el personaje
 	protected int _armadura_cuerpo = 0;
@@ -35,13 +36,17 @@ public/* abstract */class npc {
 	protected long[] _vibra_patron = { 10, 200, 30, 500 };
 
 	public npc(Context ctx, tipo_npc _tipo, int _pi_ataque, int _salud,
-			int _rango_ataque, int _armadura_cuerpo, int _armadura_distancia,
+			int _rango_ataque, int velocidad, int _armadura_cuerpo, int _armadura_distancia,
 			int _S_movimiento, int _S_ataque, int _S_muerte, int _S_espcial) {
 		this._z = (ZomblindActivity) ctx;
 		this._tipo = _tipo;
+		
 		this._pi_ataque = _pi_ataque;
 		this._salud = _salud;
 		this._rango_ataque = _rango_ataque;
+		
+		this._velocidad = velocidad;
+		
 		this._armadura_cuerpo = _armadura_cuerpo;
 		this._armadura_distancia = _armadura_distancia;
 
@@ -74,11 +79,11 @@ public/* abstract */class npc {
 	}
 
 	public void acercar() {
-		_distancia = _distancia == 1 ? 1 : _distancia - 1;
+		_distancia = _distancia == this._velocidad ? 1 : _distancia - this._velocidad;
 	}
 
 	public boolean acercar_isCerca() {
-		_distancia = _distancia == 1 ? 1 : _distancia - 1;
+		_distancia = _distancia == this._velocidad ? 1 : _distancia - this._velocidad;
 		return _distancia == 0;
 	}
 
