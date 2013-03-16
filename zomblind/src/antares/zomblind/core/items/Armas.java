@@ -42,7 +42,7 @@ public class Armas {
 				1, 5,
 				0, 0,
 				R.raw.arma_punos, -1,
-				new long[]{100,1000},
+				new long[]{10,200},
 				null));
 		
 		this._lista.add(new Arma(_z, "Katana",
@@ -54,7 +54,7 @@ public class Armas {
 				1, 20, //Estado , Cansancio
 				0, 0,
 				R.raw.arma_punos, -1,
-				new long[]{100,100},
+				new long[]{10,100},
 				null));
 		
 		
@@ -65,8 +65,8 @@ public class Armas {
 				1, 5,
 				0, 0,
 				R.raw.arma_pistola9mm_disparo_corto, R.raw.arma_pistola9mm_recargar,
-				new long[]{20,1000},
-				new long[]{20,1000,20,200}));
+				new long[]{20,200},
+				new long[]{20,100,100,200}));
 		this._lista.add(new Arma(_z, "Rifle Caza",
 				10, 25,
 				tipo_arma.DISTANCIA, tipo_arma_recargar.MANUAl,
@@ -74,8 +74,8 @@ public class Armas {
 				1, 5,
 				0, 0,
 				R.raw.arma_rfilecaza_disparo, R.raw.arma_rfilecaza_recargar,
-				new long[]{20,2000},
-				new long[]{20,580,80,800,1000,1000}));
+				new long[]{20,200},
+				new long[]{20,100,10,100,100,200}));
 
 		for(Arma a:this._lista){a._descubierta = true;};
 		

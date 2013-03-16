@@ -48,47 +48,50 @@ public class npcLista {
 	}
 
 	public void ataque() {
-		if (_npc[0] != null) {
-			_npc[0].ataque();
-		} else if (pos.nextDouble() < _p) {
-			if (_npcs.size() > 0) {
-				_npc[0] = _npcs.pop();
-				_npc[0]._distancia = 10;
-				_npc[0]._zona = 0;
+		
+		
+		if (_npc[0] == null && _npc[1] == null && _npc[2] == null) {
+			if (pos.nextDouble() < _p) {
+				if (_npcs.size() > 0) {
+					_npc[0] = _npcs.pop();
+					_npc[0]._distancia = 10;
+					_npc[0]._zona = 0;
+				}
 			}
-		}
-		if (_npc[1] != null) {
-			_npc[1].ataque();
-		} else if (pos.nextDouble() < _p) {
-			if (_npcs.size() > 0) {
-				_npc[1] = _npcs.pop();
-				_npc[1]._distancia = 10;
-				_npc[1]._zona = 1;
+			if (pos.nextDouble() < _p) {
+				if (_npcs.size() > 0) {
+					_npc[1] = _npcs.pop();
+					_npc[1]._distancia = 10;
+					_npc[1]._zona = 1;
+				}
 			}
-		}
-		if (_npc[2] != null) {
-			_npc[2].ataque();
-		} else if (pos.nextDouble() < _p) {
-			if (_npcs.size() > 0) {
-				_npc[2] = _npcs.pop();
-				_npc[2]._distancia = 10;
-				_npc[2]._zona = 2;
+			if (pos.nextDouble() < _p) {
+				if (_npcs.size() > 0) {
+					_npc[2] = _npcs.pop();
+					_npc[2]._distancia = 10;
+					_npc[2]._zona = 2;
+				}
 			}
+		}else{
+			if (_npc[0] != null) {_npc[0].ataque();}
+			if (_npc[1] != null) {_npc[1].ataque();}
+			if (_npc[1] != null) {_npc[2].ataque();}
+			
 		}
 	}
-	
-	public void atacar(int zona, Arma arma){
-		//Existe npc en la zona
-		if(_npc[zona]!=null){
-			if(_npc[zona]._distancia <= arma._alcance){
-				if (_npc[zona].atacar(arma)){
-					//El npc ha muerto
+
+	public void atacar(int zona, Arma arma) {
+		// Existe npc en la zona
+		if (_npc[zona] != null) {
+			if (_npc[zona]._distancia <= arma._alcance) {
+				if (_npc[zona].atacar(arma)) {
+					// El npc ha muerto
 					_npc[zona] = null;
 				}
 			}
-			
+
 		}
-		
+
 	}
 
 	@Override

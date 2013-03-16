@@ -28,6 +28,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import antares.zomblind.core.*;
+import antares.zomblind.core.Nucleo.data_nucleo;
+import antares.zomblind.core.levels.L000_menu;
 import antares.zomblind.in.*;
 import antares.zomblind.out.*;
 
@@ -108,9 +110,11 @@ public class ZomblindActivity extends Activity {
 			finish();
 		}
 
-		_entorno = new Nucleo(this);
+		//_entorno = new Nucleo(this);
 		_talker = new TextToSpeech(this, _habladora);
+		_entorno = new L000_menu(this);
 		_debug = new debug(this);
+
 	}
 
 	private SensorEventListener mySensorEventListenerOrientacion = new SensorEventListener() {
@@ -148,7 +152,7 @@ public class ZomblindActivity extends Activity {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			Log.d(this.getClass().getName(), "back button pressed");
 			if (salir == true) {
-				_entorno._eventos.cancel();
+				data_nucleo._eventos.cancel();
 				_talker.shutdown();
 				this.finish();
 			} else {

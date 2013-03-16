@@ -3,11 +3,12 @@ package antares.zomblind.core.npcs;
 import android.content.Context;
 import android.media.MediaPlayer;
 import antares.zomblind.ZomblindActivity;
+import antares.zomblind.core.Nucleo.data_nucleo;
 import antares.zomblind.core.items.Arma;
 import antares.zomblind.core.items.Armas.*;
 
-public/* abstract */class npc {
-
+public class npc {
+	
 	protected ZomblindActivity _z;
 
 	// Zona 0 - izquierda , 1 - centro , 2 - derecha
@@ -16,6 +17,8 @@ public/* abstract */class npc {
 	// Distancia en metros: 1,2,3,4,5,6,7,8,9,10
 	public double _distancia;
 
+	protected String _name = "";
+	
 	protected tipo_npc _tipo;
 	protected int _pi_ataque;
 	protected int _salud;
@@ -25,6 +28,8 @@ public/* abstract */class npc {
 	// La armadura "resta" daño que recibe el personaje
 	protected int _armadura_cuerpo = 0;
 	protected int _armadura_distancia = 0;
+	
+	protected float _v_right=0, _v_left=0;
 
 	// protected MediaPlayer _s0;
 
@@ -33,12 +38,13 @@ public/* abstract */class npc {
 	protected MediaPlayer _S_muerte;
 	protected MediaPlayer _S_espcial;
 
-	protected long[] _vibra_patron = { 10, 200, 30, 500 };
+	protected long[] _vibra_patron = { 10, 20, 30, 50 };
 
 	public npc(Context ctx, tipo_npc _tipo, int _pi_ataque, int _salud,
 			int _rango_ataque, int velocidad, int _armadura_cuerpo, int _armadura_distancia,
 			int _S_movimiento, int _S_ataque, int _S_muerte, int _S_espcial) {
 		this._z = (ZomblindActivity) ctx;
+		
 		this._tipo = _tipo;
 		
 		this._pi_ataque = _pi_ataque;
@@ -55,11 +61,30 @@ public/* abstract */class npc {
 		this._S_muerte = MediaPlayer.create(_z, _S_muerte);
 		// this._S_espcial = MediaPlayer.create(_z, _S_espcial);
 	}
+	
+	public npc(Context ctx, DataNPCs d){
+		this._z = (ZomblindActivity) ctx;
+		this._tipo = d._tipo;
+		
+		this._name = d._name;
+		
+		this._pi_ataque = d._pi_ataque;
+		this._salud = d._salud;
+		this._rango_ataque = d._rango_ataque;
+		this._velocidad = d._velocidad;
+		
+		this._armadura_cuerpo = d._armadura_cuerpo;
+		this._armadura_distancia = d._armadura_distancia;
+
+		this._S_movimiento = MediaPlayer.create(_z, d._S_movimiento );
+		this._S_ataque = MediaPlayer.create(_z, d._S_ataque);
+		this._S_muerte = MediaPlayer.create(_z, d._S_muerte);
+		if(d._S_especial!=-1)this._S_espcial = MediaPlayer.create(_z,d. _S_especial);
+	}
+	
 
 	public npc(Context ctx) {
 		_z = (ZomblindActivity) ctx;
-		// _s0 = new MediaPlayer();
-		// _s0.setLooping(false);
 	}
 
 	public enum tipo_npc {
@@ -69,10 +94,9 @@ public/* abstract */class npc {
 	@Override
 	public String toString() {
 		if (this != null) {
-			return "npc[" + _zona + " " + _distancia + "m " + _tipo + ", PA="
+			return this._name +" [" + _zona + " " + _distancia + "m " + _tipo + ", PA="
 					+ _pi_ataque + " PS=" + _salud + " RANGO=" + _rango_ataque
-					+ " AC" + _armadura_cuerpo + " AD=" + _armadura_distancia
-					+ "]";
+					+ " AC" + _armadura_cuerpo + " AD=" + _armadura_distancia + " "+ _v_left +"|"+ _v_right + "]";
 		} else {
 			return "npc[--null--]";
 		}
@@ -115,10 +139,11 @@ public/* abstract */class npc {
 		// nuestra función
 		generalVolume = (float) ((generalVolume * _z._entorno._max_volume) / 2.2);
 
-		float leftVolume = this._zona < 2 ? generalVolume : 0;
-		float rightVolume = this._zona > 0 ? generalVolume : 0;
+		_v_left = this._zona < 2 ? generalVolume : 0;
+		_v_right = this._zona > 0 ? generalVolume : 0;
 
-		s0.setVolume(leftVolume, rightVolume);
+		s0.setVolume(_v_left, _v_right);
+		
 
 	}
 
@@ -126,7 +151,7 @@ public/* abstract */class npc {
 		if (this._distancia - _rango_ataque <= 0) {
 			setVolumen(_S_ataque);
 			_S_ataque.start();
-			_z._entorno._jugador.atacado(_pi_ataque);
+			data_nucleo._jugador.atacado(_pi_ataque);
 			_z._vibrador.vibrarpattern(_vibra_patron);
 		}
 	}
@@ -134,9 +159,9 @@ public/* abstract */class npc {
 	// Devuelve si el NPC muere
 	public boolean atacar(Arma arma) {
 		if (arma._tipo == tipo_arma.CUERPO) {
-			_salud = _salud - (arma._dano - _armadura_cuerpo);
+			_salud = _salud - (((arma._dano - _armadura_cuerpo)<0)?0:arma._dano - _armadura_cuerpo);
 		} else if (arma._tipo == tipo_arma.DISTANCIA) {
-			_salud = _salud - (arma._dano - _armadura_distancia);
+			_salud = _salud - (((arma._dano - _armadura_distancia)<0)?0:arma._dano - _armadura_distancia);;
 		}
 
 		if (_salud <= 0) {

@@ -27,6 +27,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
+import antares.zomblind.core.Nucleo.data_nucleo;
 import antares.zomblind.core.items.Armas.tipo_arma;
 
 public class debug {
@@ -98,7 +99,7 @@ public class debug {
 			conta_delay++;
 		}
 
-		if (debugactivo) {
+		if (debugactivo && data_nucleo._jugador!=null) {
 			//Pintamos "la posición";
 			paint.setColor(Color.GRAY);
 			canvas.drawCircle(_z._pantalla.x, _z._pantalla.y, 20, paint);
@@ -123,17 +124,17 @@ public class debug {
 			canvas.drawText("Infección", 5, 15, paint);
 			canvas.drawRect(0, 20, _z._pantalla.width, 35, paint);
 
-			if (_z._entorno._jugador._infeccion._actual > 0) {
+			if (data_nucleo._jugador._infeccion._actual > 0) {
 				paint.setStrokeWidth(10);
 				canvas.drawRect(0, 25, ((_z._pantalla.width)
-						* _z._entorno._jugador._infeccion._actual / 100), 30,
+						* data_nucleo._jugador._infeccion._actual / 100), 30,
 						paint);
 				paint.setStrokeWidth(1);
 				paint.setColor(Color.BLACK);
 				canvas.drawText(
-						Integer.toString(_z._entorno._jugador._infeccion._actual),
+						Integer.toString(data_nucleo._jugador._infeccion._actual),
 						((_z._pantalla.width)
-								* _z._entorno._jugador._infeccion._actual / 100) - 14,
+								* data_nucleo._jugador._infeccion._actual / 100) - 14,
 						32, paint);
 			}
 			
@@ -144,15 +145,15 @@ public class debug {
 			canvas.drawText("Stamina", 5, 45, paint);
 			canvas.drawRect(0, 50, _z._pantalla.width, 65, paint);
 
-			if (_z._entorno._jugador._resistencia._actual > 0) {
+			if (data_nucleo._jugador._resistencia._actual > 0) {
 				paint.setStrokeWidth(10);
 				canvas.drawRect(0, 55, ((_z._pantalla.width)
-						* _z._entorno._jugador._resistencia._actual / 100), 60,
+						* data_nucleo._jugador._resistencia._actual / 100), 60,
 						paint);
 				paint.setStrokeWidth(1);
 				paint.setColor(Color.BLACK);
 				canvas.drawText(
-						Integer.toString(_z._entorno._jugador._resistencia._actual), 5,
+						Integer.toString(data_nucleo._jugador._resistencia._actual), 5,
 						62, paint);
 			}
 			
@@ -160,18 +161,18 @@ public class debug {
 			paint.setStyle(Style.STROKE);
 
 			paint.setColor(Color.GRAY);
-			canvas.drawText(_z._entorno._jugador.toString(), 5, delay_text * 5, paint);
+			canvas.drawText(data_nucleo._jugador.toString(), 5, delay_text * 5, paint);
 			
-			canvas.drawText(_z._entorno._jugador._armas.getArma(tipo_arma.CUERPO).toString(), 5, delay_text * 6, paint);
-			canvas.drawText(_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA).toString(), 5, delay_text * 7, paint);
-			canvas.drawText(_z._entorno._jugador._armas.getArma(tipo_arma.ARROJADIZA).toString(), 5, delay_text * 8, paint);
-			canvas.drawText(_z._entorno._jugador._armas.getArma(tipo_arma.ESPECIAL).toString(), 5, delay_text * 9, paint);
+			canvas.drawText(data_nucleo._jugador._armas.getArma(tipo_arma.CUERPO).toString(), 5, delay_text * 6, paint);
+			canvas.drawText(data_nucleo._jugador._armas.getArma(tipo_arma.DISTANCIA).toString(), 5, delay_text * 7, paint);
+			canvas.drawText(data_nucleo._jugador._armas.getArma(tipo_arma.ARROJADIZA).toString(), 5, delay_text * 8, paint);
+			canvas.drawText(data_nucleo._jugador._armas.getArma(tipo_arma.ESPECIAL).toString(), 5, delay_text * 9, paint);
 			
 			canvas.drawText("X - Y - Z: " + _z._acelerometro.toString(), 5, delay_text * 10, paint);
 			
-			canvas.drawText(_z._entorno._npcs._npc[0]!=null?_z._entorno._npcs._npc[0].toString():"--null--", 5, delay_text * 11, paint);
-			canvas.drawText(_z._entorno._npcs._npc[1]!=null?_z._entorno._npcs._npc[1].toString():"--null--", 5, delay_text * 12, paint);
-			canvas.drawText(_z._entorno._npcs._npc[2]!=null?_z._entorno._npcs._npc[2].toString():"--null--", 5, delay_text * 13, paint);
+			canvas.drawText(data_nucleo._npcs._npc[0]!=null?data_nucleo._npcs._npc[0].toString():"--null--", 5, delay_text * 11, paint);
+			canvas.drawText(data_nucleo._npcs._npc[1]!=null?data_nucleo._npcs._npc[1].toString():"--null--", 5, delay_text * 12, paint);
+			canvas.drawText(data_nucleo._npcs._npc[2]!=null?data_nucleo._npcs._npc[2].toString():"--null--", 5, delay_text * 13, paint);
 			
 			canvas.drawText("Posición de mira (mirando): " + _z._orientacion.mirando(), 10, delay_text * 15,  paint);
 			canvas.drawText("Posición de mira (original_azimut): " + _z._orientacion.original_azimut, 10, delay_text * 16,  paint);

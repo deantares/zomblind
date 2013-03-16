@@ -29,6 +29,7 @@ public class interfaz extends View {
 	
 	public interfaz(Context context) {
 		super(context);
+		this.setKeepScreenOn(true);
 		_z = (ZomblindActivity) context;
 		paint.setColor(0xff00ff00);
 		paint.setStyle(Style.STROKE);

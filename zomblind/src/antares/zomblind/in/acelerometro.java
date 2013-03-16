@@ -164,23 +164,23 @@ public class acelerometro {
 	}
 	
 	public boolean golpe_frente(){
-		return Z<-umbral_flojo;
+		return Z>umbral_flojo;
 	}
 	
 	public boolean golpe_frente_fuerte(){
-		return Z<-umbral_fuerte;
+		return Z>umbral_fuerte;
 	}
 	
 	public boolean recargar(){
-		return Y<-umbral_flojo;
+		return Y>umbral_flojo;
 	}
 	
 	public boolean lanzar(){
-		return Y>umbral_medio;
+		return Y<-umbral_medio;
 	}
 	
 	public boolean esquivar(){
-		return Z>umbral_medio;
+		return Z<-umbral_medio;
 	}
 	
 	public boolean isgolpeando(){
