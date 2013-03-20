@@ -3,7 +3,6 @@ package antares.zomblind.core.items;
 import android.content.Context;
 import android.media.MediaPlayer;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.Nucleo.data_nucleo;
 import antares.zomblind.core.items.Armas.tipo_arma;
 import antares.zomblind.core.items.Armas.tipo_arma_recargar;
 
@@ -117,14 +116,14 @@ public class Arma {
 				return false;
 			}
 		} else if (_tipo == tipo_arma.CUERPO) {
-			if (data_nucleo._jugador._resistencia._actual < this._cansancio) {
+			if (_z._entorno._jugador._resistencia._actual < this._cansancio) {
 				return false;
 			} else {
 				_z._vibrador.vibrarpattern(_vibra_patron_usar);
 				_S_ataque.setVolume(_z._entorno._max_volume,
 						_z._entorno._max_volume);
 				_S_ataque.start();
-				data_nucleo._jugador._resistencia.restar(this._cansancio);
+				_z._entorno._jugador._resistencia.restar(this._cansancio);
 				return true;
 			}
 		}

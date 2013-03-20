@@ -28,7 +28,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import antares.zomblind.core.*;
-import antares.zomblind.core.Nucleo.data_nucleo;
 import antares.zomblind.core.levels.L000_menu;
 import antares.zomblind.in.*;
 import antares.zomblind.out.*;
@@ -71,6 +70,7 @@ public class ZomblindActivity extends Activity {
 		// Bloqueamos la orientación
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+		//Definimos los manejadores de la interfaz
 		_pantalla = new pantalla(this);
 		_vibrador = new vibrador(this);
 
@@ -112,7 +112,7 @@ public class ZomblindActivity extends Activity {
 
 		//_entorno = new Nucleo(this);
 		_talker = new TextToSpeech(this, _habladora);
-		_entorno = new L000_menu(this);
+		_entorno = new Nucleo(this);
 		_debug = new debug(this);
 
 	}
@@ -152,7 +152,7 @@ public class ZomblindActivity extends Activity {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			Log.d(this.getClass().getName(), "back button pressed");
 			if (salir == true) {
-				data_nucleo._eventos.cancel();
+				_entorno._eventos.cancel();
 				_talker.shutdown();
 				this.finish();
 			} else {

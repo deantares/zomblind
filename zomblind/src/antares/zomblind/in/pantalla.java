@@ -19,7 +19,6 @@ import android.content.Context;
 import android.view.Display;
 import android.view.MotionEvent;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.Nucleo.data_nucleo;
 import antares.zomblind.core.items.Armas.tipo_arma;
 
 public class pantalla {
@@ -98,7 +97,7 @@ public class pantalla {
 					//Codigo del disparo
 				}else if(zona(x,y)== 1 && zona(x0,y0)==0){
 					action = "info_jugador";
-					data_nucleo._jugador.info();
+					_z._entorno._jugador.info();
 					//Codigo de la información del jugador
 					
 				}else if(zona(x,y)== 2 && zona(x0,y0)==0){
@@ -116,11 +115,11 @@ public class pantalla {
 					//Codigo del cambio de arma a distancia
 					
 				}else if(zona(x0,y0)== 4 && zona(x,y)==4){
-					data_nucleo._jugador._armas.next(tipo_arma.DISTANCIA);
-					_z._habladora.say(data_nucleo._jugador._armas.getArma(tipo_arma.DISTANCIA)._name);
+					_z._entorno._jugador._armas.next(tipo_arma.DISTANCIA);
+					_z._habladora.say(_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA)._name);
 				}else if(zona(x0,y0)== 3 && zona(x,y)==3){
-					data_nucleo._jugador._armas.next(tipo_arma.CUERPO);
-					_z._habladora.say(data_nucleo._jugador._armas.getArma(tipo_arma.CUERPO)._name);
+					_z._entorno._jugador._armas.next(tipo_arma.CUERPO);
+					_z._habladora.say(_z._entorno._jugador._armas.getArma(tipo_arma.CUERPO)._name);
 				}
 				
 			}

@@ -75,7 +75,7 @@ public class npcLista {
 		}else{
 			if (_npc[0] != null) {_npc[0].ataque();}
 			if (_npc[1] != null) {_npc[1].ataque();}
-			if (_npc[1] != null) {_npc[2].ataque();}
+			if (_npc[2] != null) {_npc[2].ataque();}
 			
 		}
 	}
@@ -92,6 +92,10 @@ public class npcLista {
 
 		}
 
+	}
+	
+	public boolean noZombieInGame(){
+		return (_npc[0]==null)&&(_npc[1]==null)&&(_npc[2]==null);
 	}
 
 	@Override

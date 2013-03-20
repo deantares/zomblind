@@ -108,7 +108,13 @@ public class Jugador {
 		if (_infeccion._actual==_infeccion._max){
 			_z._habladora.say("Infectado");
 		}
-		_z._habladora.say(_infeccion._actual + " % de infección" );
+		//long t = (_infeccion._max - _infeccion._actual+10)*4;
+		//long it = (_infeccion._actual + 10)*4;
+		long t = (long) (200*Math.exp(-0.03*_infeccion._actual));
+		long it = (long) (200*Math.exp(-0.03*(_infeccion._max-_infeccion._actual)));
+		
+		//_z._habladora.say(_infeccion._actual + " % de infección" );
+		_z._vibrador.vibrarpattern(new long []{10, t, it, t/2, it,t, it, t/2});
 	}
 	
 

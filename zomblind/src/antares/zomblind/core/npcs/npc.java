@@ -3,7 +3,6 @@ package antares.zomblind.core.npcs;
 import android.content.Context;
 import android.media.MediaPlayer;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.Nucleo.data_nucleo;
 import antares.zomblind.core.items.Arma;
 import antares.zomblind.core.items.Armas.*;
 
@@ -151,7 +150,7 @@ public class npc {
 		if (this._distancia - _rango_ataque <= 0) {
 			setVolumen(_S_ataque);
 			_S_ataque.start();
-			data_nucleo._jugador.atacado(_pi_ataque);
+			_z._entorno._jugador.atacado(_pi_ataque);
 			_z._vibrador.vibrarpattern(_vibra_patron);
 		}
 	}
