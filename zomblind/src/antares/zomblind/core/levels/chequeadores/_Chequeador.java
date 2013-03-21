@@ -14,26 +14,8 @@
  * limitations under the License.
  ******************************************************************************/
 
-package antares.zomblind.out;
+package antares.zomblind.core.levels.chequeadores;
 
-import android.content.Context;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
-import antares.zomblind.ZomblindActivity;
-
-public class Habladora implements OnInitListener {
-	
-	ZomblindActivity _z;
-	
-	public Habladora (Context ctx){
-		_z = (ZomblindActivity) ctx;
-	}
-
-	public void onInit(int arg0) {
-		
-	}
-
-	public void decir(String text2say) {
-		_z._talker.speak(text2say, TextToSpeech.QUEUE_FLUSH, null);
-	}
-};
+public interface _Chequeador {
+	public boolean test();
+}

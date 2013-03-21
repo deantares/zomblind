@@ -28,23 +28,22 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import antares.zomblind.core.*;
-import antares.zomblind.core.levels.L000_menu;
 import antares.zomblind.in.*;
 import antares.zomblind.out.*;
 
 public class ZomblindActivity extends Activity {
 
 	// Clases de control de entrada IN
-	public acelerometro _acelerometro = new acelerometro(this);
-	public orientacion _orientacion = new orientacion(this);
-	public pantalla _pantalla;
+	public Acelerometro _acelerometro = new Acelerometro(this);
+	public Orientacion _orientacion = new Orientacion(this);
+	public Pantalla _pantalla;
 
 	// Clases de control de salida OUT
-	public debug _debug;
-	public interfaz _interfaz;
-	public habladora _habladora = new habladora(this);
+	public Debug _debug;
+	public Interfaz _interfaz;
+	public Habladora _habladora = new Habladora(this);
 	public TextToSpeech _talker;
-	public vibrador _vibrador;
+	public Vibrador _vibrador;
 
 	// Clases manejadoras de eventos
 	private static SensorManager _sensorServiceOrientacion;
@@ -64,15 +63,15 @@ public class ZomblindActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// Definimos su vista
-		_interfaz = new interfaz(this);
+		_interfaz = new Interfaz(this);
 		setContentView(_interfaz);
 
 		// Bloqueamos la orientación
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		//Definimos los manejadores de la interfaz
-		_pantalla = new pantalla(this);
-		_vibrador = new vibrador(this);
+		_pantalla = new Pantalla(this);
+		_vibrador = new Vibrador(this);
 
 		// Inicializamos el sensor de orientación
 		_sensorServiceOrientacion = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -113,7 +112,7 @@ public class ZomblindActivity extends Activity {
 		//_entorno = new Nucleo(this);
 		_talker = new TextToSpeech(this, _habladora);
 		_entorno = new Nucleo(this);
-		_debug = new debug(this);
+		_debug = new Debug(this);
 
 	}
 
@@ -149,25 +148,25 @@ public class ZomblindActivity extends Activity {
 
 	// Capturamos las pulsaciones de teclas
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)) {
 			Log.d(this.getClass().getName(), "back button pressed");
 			if (salir == true) {
 				_entorno._eventos.cancel();
 				_talker.shutdown();
 				this.finish();
 			} else {
-				_habladora.say(getString(R.string.speaker_button_back_exit));
+				_habladora.decir(getString(R.string.speaker_button_back_exit));
 				salir = true;
 				return true;
 			}
 		} else if ((keyCode == KeyEvent.KEYCODE_MENU)) {
 			_debug.change();
 		} else if ((keyCode == KeyEvent.KEYCODE_VOLUME_UP)) {
-			this._habladora.say("Más volumen");
+			this._habladora.decir("Más volumen");
 			return super.onKeyDown(keyCode, event);
 
 		} else if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
-			this._habladora.say("Menos volumen");
+			this._habladora.decir("Menos volumen");
 			return super.onKeyDown(keyCode, event);
 		}
 		return super.onKeyDown(keyCode, event);

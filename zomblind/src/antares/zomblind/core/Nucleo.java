@@ -16,7 +16,9 @@
 package antares.zomblind.core;
 
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.items.Armas.tipo_arma;
+import antares.zomblind.core.levels.NivelInfo;
+import antares.zomblind.core.npcs.NpcLista;
+import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,7 +32,7 @@ public class Nucleo {
 	// Variables del jugador;
 	public Jugador _jugador = null;
 	public Timer _eventos = null;
-	public npcLista _npcs = null;
+	public NpcLista _npcs = null;
 
 	// Object _jugador = null;
 
@@ -49,7 +51,7 @@ public class Nucleo {
 	public float _max_volume_inc = (float) 0.2;
 
 	//Información del nivel
-	public info_level _l;
+	public NivelInfo _l;
 	
 	//Sonidos auxiliares
 	protected MediaPlayer _S_jugador;
@@ -70,7 +72,7 @@ public class Nucleo {
 					if (!_z._talker.isSpeaking()) {
 						// int a = ale.nextInt(10);
 
-						_z._habladora.say(_l.get_mensaje());
+						_z._habladora.decir(_l.get_mensaje());
 						Log.i("Generador", "Generando");
 						try {
 							_l.run_generate();
@@ -129,12 +131,14 @@ public class Nucleo {
 	public Nucleo(Context contexto) {
 		_z = (ZomblindActivity) contexto;
 		_jugador = new Jugador(_z);
-		_npcs = new npcLista();
+		_npcs = new NpcLista();
 		_eventos = new Timer("Nivel 000");
 		
-		_l = new info_level(_z);
+		_l = new NivelInfo(_z);
 		
-		_z._habladora.say("Cargando");
+		_jugador._armas.
+		
+		_z._habladora.decir("Cargando");
 		_l.push("", "_conditions_all"  , "_generate_random" );
 		_l.push("Bien hecho", "_conditions_all"  , "" );
 		_l.push("Final del juego", ""  , "" );

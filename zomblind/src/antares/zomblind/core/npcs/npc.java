@@ -3,10 +3,10 @@ package antares.zomblind.core.npcs;
 import android.content.Context;
 import android.media.MediaPlayer;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.items.Arma;
-import antares.zomblind.core.items.Armas.*;
+import antares.zomblind.core.objetos.Arma;
+import antares.zomblind.core.objetos.ArmaLista.*;
 
-public class npc {
+public class Npc {
 	
 	protected ZomblindActivity _z;
 
@@ -39,7 +39,7 @@ public class npc {
 
 	protected long[] _vibra_patron = { 10, 20, 30, 50 };
 
-	public npc(Context ctx, tipo_npc _tipo, int _pi_ataque, int _salud,
+	public Npc(Context ctx, tipo_npc _tipo, int _pi_ataque, int _salud,
 			int _rango_ataque, int velocidad, int _armadura_cuerpo, int _armadura_distancia,
 			int _S_movimiento, int _S_ataque, int _S_muerte, int _S_espcial) {
 		this._z = (ZomblindActivity) ctx;
@@ -61,7 +61,7 @@ public class npc {
 		// this._S_espcial = MediaPlayer.create(_z, _S_espcial);
 	}
 	
-	public npc(Context ctx, DataNPCs d){
+	public Npc(Context ctx, NpcData d){
 		this._z = (ZomblindActivity) ctx;
 		this._tipo = d._tipo;
 		
@@ -82,7 +82,7 @@ public class npc {
 	}
 	
 
-	public npc(Context ctx) {
+	public Npc(Context ctx) {
 		_z = (ZomblindActivity) ctx;
 	}
 

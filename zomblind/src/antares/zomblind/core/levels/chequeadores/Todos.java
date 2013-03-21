@@ -1,13 +1,13 @@
-package antares.zomblind.core.levels.comprobation;
+package antares.zomblind.core.levels.chequeadores;
 
 import android.content.Context;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.items.Armas.tipo_arma;
+import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
 
-public class _comprobation_all implements _comprobation{
+public class Todos implements _Chequeador{
 	ZomblindActivity _z;
 
-	public _comprobation_all(Context ctx) {
+	public Todos(Context ctx) {
 		_z = (ZomblindActivity) ctx;
 	}
 	

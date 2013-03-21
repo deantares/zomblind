@@ -1,23 +1,22 @@
-package antares.zomblind.core;
+package antares.zomblind.core.npcs;
 
 import java.util.Random;
 import java.util.Stack;
 
-import antares.zomblind.core.items.Arma;
-import antares.zomblind.core.npcs.npc;
+import antares.zomblind.core.objetos.Arma;
 
-public class npcLista {
+public class NpcLista {
 
-	public npc[] _npc = new npc[3];
+	public Npc[] _npc = new Npc[3];
 
 	Random pos = new Random();
 
-	Stack<npc> _npcs = new Stack<npc>();
+	Stack<Npc> _npcs = new Stack<Npc>();
 	private int _max_npcs = 10;
 
 	double _p = 0.3;
 
-	public npcLista() {
+	public NpcLista() {
 		_npc[0] = null;
 		_npc[1] = null;
 		_npc[2] = null;
@@ -41,7 +40,7 @@ public class npcLista {
 			_npc[2].play();
 	}
 
-	public void push(npc n) {
+	public void push(Npc n) {
 		if (_npcs.size() < _max_npcs) {
 			_npcs.push(n);
 		}

@@ -1,10 +1,26 @@
-package antares.zomblind.core.items;
+/*******************************************************************************
+ * Copyright 2013 Antonio Fernández Ares (antares.es@gmail.com)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
+package antares.zomblind.core.objetos;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.items.Armas.tipo_arma;
-import antares.zomblind.core.items.Armas.tipo_arma_recargar;
+import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
+import antares.zomblind.core.objetos.ArmaLista.tipo_arma_recargar;
 
 public class Arma {
 
@@ -52,6 +68,37 @@ public class Arma {
 		this._arma_municion = 1;
 		this._estado = 0;
 		this._cansancio = 0;
+	}
+
+	public Arma(Context ctx, ArmaData arma) {
+
+		this._z = (ZomblindActivity) ctx;
+		this._name = arma._name;
+		this._alcance = arma._alcance;
+		this._dano = arma._dano;
+		this._tipo = arma._tipo;
+		this._tipo_recargar = arma._tipo_recargar;
+		this._arma_municion = arma._arma_municion;
+		this._arma_municion_maxima = arma._arma_municion_maxima;
+
+		this._municion = arma._municion;
+		this._municion_maxima = arma._municion_maxima;
+		this._estado = arma._estado;
+		this._cansancio = arma._cansancio;
+		this._prob_critico = arma._prob_critico;
+		this._cantidad_critico = arma._cantidad_critico;
+
+		this._S_ataque = MediaPlayer.create(_z, arma._S_ataque);
+		this._S_ataque.setLooping(false);
+		if (arma._S_recargar != -1) {
+			this._S_recargar = MediaPlayer.create(_z, arma._S_recargar);
+			this._S_recargar.setLooping(false);
+		}
+
+		if (arma._vibra_patron_usar != null)
+			this._vibra_patron_usar = arma._vibra_patron_usar;
+		if (arma._vibra_patron_recargar != null)
+			this._vibra_patron_recargar = arma._vibra_patron_recargar;
 
 	}
 

@@ -19,7 +19,7 @@ import android.content.Context;
 import android.hardware.SensorEvent;
 import antares.zomblind.ZomblindActivity;
 
-public class acelerometro {
+public class Acelerometro {
 
 	// Variables de sensores: Acelerómetro
 	float last_update = 0, last_movement = 0;
@@ -52,15 +52,15 @@ public class acelerometro {
 	//Contexto
 	private ZomblindActivity _z;
 	
-	public acelerometro(Context ctx){
+	public Acelerometro(Context ctx){
 		_z = (ZomblindActivity) ctx;
 	}
 	
-	public acelerometro() {
+	public Acelerometro() {
 
 	}
 
-	public acelerometro(float[] values, long current_time) {
+	public Acelerometro(float[] values, long current_time) {
 
 		curX = values[0];
 		curY = values[1];

@@ -19,7 +19,7 @@ import android.content.Context;
 import android.hardware.SensorEvent;
 import antares.zomblind.ZomblindActivity;
 
-public class orientacion {
+public class Orientacion {
 
 	public Float azimut = 0f;
 	public Float original_azimut =0f;
@@ -31,11 +31,11 @@ public class orientacion {
 	
 	ZomblindActivity _z;
 	
-	public orientacion(Context ctx){
+	public Orientacion(Context ctx){
 		_z = (ZomblindActivity) ctx;
 	}
 	
-	public orientacion(){
+	public Orientacion(){
 		
 	}
 	

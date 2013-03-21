@@ -1,13 +1,13 @@
-package antares.zomblind.core.levels.conditions;
+package antares.zomblind.core.levels.condiciones;
 
 import android.content.Context;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.items.Armas.tipo_arma;
+import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
 
-public class _conditions_no_zombies_in_game implements _conditions{
+public class SinZombies implements _Condicion{
 	ZomblindActivity _z;
 
-	public _conditions_no_zombies_in_game(Context ctx) {
+	public SinZombies(Context ctx) {
 		_z = (ZomblindActivity) ctx;
 	}
 	

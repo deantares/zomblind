@@ -18,7 +18,7 @@ package antares.zomblind.core;
 
 import android.content.Context;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.items.Armas;
+import antares.zomblind.core.objetos.ArmaLista;
 
 
 /**
@@ -72,7 +72,7 @@ public class Jugador {
 	
 	public infeccion _infeccion = new infeccion();
 	public resistencia _resistencia = new resistencia();
-	public Armas _armas;
+	public ArmaLista _armas;
 	
 	private ZomblindActivity _z;
 	
@@ -80,7 +80,7 @@ public class Jugador {
 	public Jugador (Context ctx){
 		_z = (ZomblindActivity) ctx;
 		
-		_armas = new Armas(_z);
+		_armas = new ArmaLista(_z);
 	}
 	
 	public String toString(){
@@ -106,7 +106,7 @@ public class Jugador {
 //	
 	public void info(){
 		if (_infeccion._actual==_infeccion._max){
-			_z._habladora.say("Infectado");
+			_z._habladora.decir("Infectado");
 		}
 		//long t = (_infeccion._max - _infeccion._actual+10)*4;
 		//long it = (_infeccion._actual + 10)*4;

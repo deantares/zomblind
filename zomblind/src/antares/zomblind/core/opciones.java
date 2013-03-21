@@ -1,6 +1,6 @@
 package antares.zomblind.core;
 
-public class opciones {
+public class Opciones {
 	
 
 }

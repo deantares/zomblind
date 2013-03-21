@@ -19,9 +19,9 @@ import android.content.Context;
 import android.view.Display;
 import android.view.MotionEvent;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.items.Armas.tipo_arma;
+import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
 
-public class pantalla {
+public class Pantalla {
 
 	public float x = 50;
 	public float y = 50;
@@ -36,7 +36,7 @@ public class pantalla {
 
 	private ZomblindActivity _z;
 
-	public pantalla(Context ctx) {
+	public Pantalla(Context ctx) {
 		_z = (ZomblindActivity) ctx;
 		Display display = _z.getWindowManager().getDefaultDisplay();
 		width = display.getWidth();
@@ -116,10 +116,10 @@ public class pantalla {
 					
 				}else if(zona(x0,y0)== 4 && zona(x,y)==4){
 					_z._entorno._jugador._armas.next(tipo_arma.DISTANCIA);
-					_z._habladora.say(_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA)._name);
+					_z._habladora.decir(_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA)._name);
 				}else if(zona(x0,y0)== 3 && zona(x,y)==3){
 					_z._entorno._jugador._armas.next(tipo_arma.CUERPO);
-					_z._habladora.say(_z._entorno._jugador._armas.getArma(tipo_arma.CUERPO)._name);
+					_z._habladora.decir(_z._entorno._jugador._armas.getArma(tipo_arma.CUERPO)._name);
 				}
 				
 			}

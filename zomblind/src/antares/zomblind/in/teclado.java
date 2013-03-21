@@ -15,7 +15,7 @@
  ******************************************************************************/
 package antares.zomblind.in;
 
-public class teclado {
+public class Teclado {
 
 	public void update() {
 

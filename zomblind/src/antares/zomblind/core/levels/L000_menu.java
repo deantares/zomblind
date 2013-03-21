@@ -18,7 +18,8 @@ package antares.zomblind.core.levels;
 
 import antares.zomblind.ZomblindActivity;
 import antares.zomblind.core.*;
-import antares.zomblind.core.items.Armas.tipo_arma;
+import antares.zomblind.core.npcs.NpcLista;
+import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
 
 import java.util.Random;
 import java.util.Timer;
@@ -32,7 +33,7 @@ public class L000_menu{
 	// Variables del jugador;
 	public Jugador _jugador;
 	public Timer _eventos;
-	public npcLista _npcs;
+	public NpcLista _npcs;
 	
 	private long TASK_DELAY = 2000;
 	private long TASK_PERIOD = 5000;
@@ -51,7 +52,7 @@ public class L000_menu{
 	Random ale = new Random();
 	
 	//Variable que controla la información del juego	
-	public info_level _l;
+	public NivelInfo _l;
 
 	private class tarea_generacion extends TimerTask {
 
@@ -139,12 +140,12 @@ public class L000_menu{
 	public L000_menu(Context contexto) {
 		_z = (ZomblindActivity) contexto;
 		_jugador = new Jugador(_z);
-		_npcs = new npcLista();
+		_npcs = new NpcLista();
 		_eventos = new Timer("Nivel 000");
 		
-		_l = new info_level(_z);
+		_l = new NivelInfo(_z);
 		
-		_z._habladora.say("Cargando");
+		_z._habladora.decir("Cargando");
 		_l.push("Bienvenido a zomblind", "_c_all"  , "_generate_random" );
 		
 		//_eventos = new Timer();

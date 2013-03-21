@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package antares.zomblind.out;
 
 import android.content.Context;
@@ -23,11 +24,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import antares.zomblind.ZomblindActivity;
 
-public class interfaz extends View {
+public class Interfaz extends View {
 	private ZomblindActivity _z;
 	Paint paint = new Paint();
 	
-	public interfaz(Context context) {
+	public Interfaz(Context context) {
 		super(context);
 		this.setKeepScreenOn(true);
 		_z = (ZomblindActivity) context;
