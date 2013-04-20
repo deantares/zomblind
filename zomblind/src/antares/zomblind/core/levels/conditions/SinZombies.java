@@ -1,8 +1,7 @@
-package antares.zomblind.core.levels.condiciones;
+package antares.zomblind.core.levels.conditions;
 
 import android.content.Context;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
 
 public class SinZombies implements _Condicion{
 	ZomblindActivity _z;
@@ -12,10 +11,7 @@ public class SinZombies implements _Condicion{
 	}
 	
 	public boolean test(){
-		boolean res = false;
-
 		return _z._entorno._npcs.noZombieInGame();
-
 	}
 
 }

@@ -1,4 +1,4 @@
-package antares.zomblind.core.levels.chequeadores;
+package antares.zomblind.core.levels.checker;
 
 import android.content.Context;
 import antares.zomblind.ZomblindActivity;

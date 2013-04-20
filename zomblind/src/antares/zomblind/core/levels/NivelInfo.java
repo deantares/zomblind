@@ -20,9 +20,9 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import antares.zomblind.ZomblindActivity;
-import antares.zomblind.core.levels.generadores.*;
-import antares.zomblind.core.levels.chequeadores.*;
-import antares.zomblind.core.levels.condiciones.*;
+import antares.zomblind.core.levels.generate.*;
+import antares.zomblind.core.levels.checker.*;
+import antares.zomblind.core.levels.conditions.*;
 
 import java.lang.reflect.*;
 
@@ -34,32 +34,31 @@ public class NivelInfo {
 	public class atomic_level {
 		String _mensagge;
 		String _condition;
-		String _comprobation;
+		String _check;
 		String _generation;
-
-		public atomic_level(String _m, String _c, String _g) {
-			this._mensagge = _m;
-			this._condition = _c;
-			this._generation = _g;
+		public atomic_level(String _mensagge, String _condition, String _comprobation, String _generation) {
+			this._mensagge = _mensagge;
+			this._condition = _condition;
+			this._check = _comprobation;
+			this._generation = _generation;
 		}
-
 	}
 
 	public NivelInfo(Context ctx) {
 		_z = (ZomblindActivity) ctx;
 	}
 
-	public void push(String m, String c, String g) {
-		_l.add(new atomic_level(m, c, g));
+	public void push(String men, String cond, String gen, String check) {
+		_l.add(new atomic_level(men, cond, check, gen));
 
 	}
 
-	public void run_comprobation() throws ClassNotFoundException,
+	public void run_check() throws ClassNotFoundException,
 			SecurityException, NoSuchMethodException, IllegalArgumentException,
 			InstantiationException, IllegalAccessException,
 			InvocationTargetException {
-		Class c = Class.forName("antares.zomblind.core.levels.comprobation."
-				+ _l.get(_c)._comprobation);
+		Class c = Class.forName("antares.zomblind.core.levels.checker."
+				+ _l.get(_c)._check);
 		Constructor constructor = c
 				.getConstructor(new Class[] { Context.class });
 		_Chequeador _d = (_Chequeador) constructor.newInstance(_z);

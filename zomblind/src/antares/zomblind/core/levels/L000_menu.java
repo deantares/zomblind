@@ -146,7 +146,7 @@ public class L000_menu{
 		_l = new NivelInfo(_z);
 		
 		_z._habladora.decir("Cargando");
-		_l.push("Bienvenido a zomblind", "_c_all"  , "_generate_random" );
+		//_l.push("Bienvenido a zomblind", "_c_all"  , "_generate_random" );
 		
 		//_eventos = new Timer();
 		_eventos.scheduleAtFixedRate(new tarea_generacion(contexto),

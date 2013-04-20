@@ -14,8 +14,8 @@
  * limitations under the License.
  ******************************************************************************/
 
-package antares.zomblind.core.levels.condiciones;
+package antares.zomblind.core.levels.checker;
 
-public interface _Condicion {
+public interface _Chequeador {
 	public boolean test();
 }

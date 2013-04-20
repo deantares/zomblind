@@ -18,7 +18,6 @@ package antares.zomblind.core;
 import antares.zomblind.ZomblindActivity;
 import antares.zomblind.core.levels.NivelInfo;
 import antares.zomblind.core.npcs.NpcLista;
-import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -54,14 +53,16 @@ public class Nucleo {
 	public NivelInfo _l;
 	
 	//Sonidos auxiliares
-	protected MediaPlayer _S_jugador;
-	protected MediaPlayer _S_entorno;
+	protected MediaPlayer _S_jugador = null;
+	protected MediaPlayer _S_entorno = null;
+	
+	protected MediaPlayer _S_main = null;
+	protected MediaPlayer _S_aux = null;
 
 	class tarea_generacion extends TimerTask {
 		ZomblindActivity _z;
 
 		public tarea_generacion(Context contexto) {
-			// TODO Auto-generated constructor stub
 			_z = (ZomblindActivity) contexto;
 		}
 
@@ -70,7 +71,6 @@ public class Nucleo {
 			if (_z.empezar == true) {
 				if (_z._orientacion.isCalibrate() == true) {
 					if (!_z._talker.isSpeaking()) {
-						// int a = ale.nextInt(10);
 
 						_z._habladora.decir(_l.get_mensaje());
 						Log.i("Generador", "Generando");
@@ -90,6 +90,8 @@ public class Nucleo {
 
 						// Reproducimos el audio
 						_npcs.play();
+						
+						if(_S_aux!=null){_S_aux.start();}
 
 					}
 				}
@@ -102,7 +104,6 @@ public class Nucleo {
 			ZomblindActivity _z;
 
 			public tarea_comprobacion(Context contexto) {
-				// TODO Auto-generated constructor stub
 				_z = (ZomblindActivity) contexto;
 
 			}
@@ -114,15 +115,16 @@ public class Nucleo {
 					boolean t=false;
 					Log.i("Generador", "Generando");
 					try {
+						_l.run_check();
 						t = _l.run_condition();
+						
 						
 					} catch (Exception e) {
 						Log.e("Excepción generate", e.toString());
 					}
 					
-					if(t){_l.next();}
-						
-					
+					//if(t){_l.next();}
+
 				}
 			}
 
@@ -135,16 +137,12 @@ public class Nucleo {
 		_eventos = new Timer("Nivel 000");
 		
 		_l = new NivelInfo(_z);
-		
-		_jugador._armas.
-		
+				
 		_z._habladora.decir("Cargando");
-		_l.push("", "_conditions_all"  , "_generate_random" );
-		_l.push("Bien hecho", "_conditions_all"  , "" );
-		_l.push("Final del juego", ""  , "" );
+		_l.push("", "SinZombies"  , "AleatorioFlojos", "Todos" );
+		_l.push("Bien hecho", "_conditions_all"  , "" , "");
+		_l.push("Final del juego", ""  , "", "" );
 		
-		
-		//_eventos = new Timer();
 		_eventos.scheduleAtFixedRate(new tarea_generacion(contexto),
 				TASK_DELAY, TASK_PERIOD);
 		_eventos.scheduleAtFixedRate(new tarea_comprobacion(contexto),

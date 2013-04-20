@@ -91,6 +91,18 @@ public class ArmaData {
 			0, 0,
 			R.raw.arma_punos, -1,
 			new long[]{10,100},
+			null);
+	
+	public static final ArmaData BASTONAZO = new ArmaData ("Bastón de Ramón",
+			2, 60, //Alcance, Daño
+			tipo_arma.CUERPO, //Tipo de arma
+			tipo_arma_recargar.NULO, //Tipo de recargue
+			0, 0, //_arma_municion, _arma_max_municion
+			0, 0, //_municion,_municion_max,
+			1, 5, //Estado , Cansancio
+			0, 0,
+			R.raw.arma_punos, -1,
+			new long[]{5,80,20,100},
 			null);	
 	
 	public static final ArmaData PISTOLA9MM = new ArmaData("Pistola 9mm",

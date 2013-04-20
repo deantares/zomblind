@@ -14,8 +14,11 @@
  * limitations under the License.
  ******************************************************************************/
 
-package antares.zomblind.core.levels.chequeadores;
+package antares.zomblind.core.levels.generate;
 
-public interface _Chequeador {
-	public boolean test();
+import antares.zomblind.core.npcs.*;
+
+public interface _Generador {
+	public void run();
+	public void run(Npc n);
 }

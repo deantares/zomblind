@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package antares.zomblind.core.levels.generadores;
+package antares.zomblind.core.levels.generate;
 
 import java.util.Random;
 

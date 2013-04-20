@@ -14,11 +14,8 @@
  * limitations under the License.
  ******************************************************************************/
 
-package antares.zomblind.core.levels.generadores;
+package antares.zomblind.core.levels.conditions;
 
-import antares.zomblind.core.npcs.*;
-
-public interface _Generador {
-	public void run();
-	public void run(Npc n);
+public interface _Condicion {
+	public boolean test();
 }

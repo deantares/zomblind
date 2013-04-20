@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.util.Log;
 import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
 import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
@@ -209,6 +210,14 @@ public class Debug {
 			canvas.drawText("Posición de mira (azimut): "
 					+ _z._orientacion.azimut, 10, delay_text * 17, paint);
 
+			//Salida por fichero de log:
+			Log.i("Zomblind INFO Jugador", _z._entorno._jugador.toString());
+			Log.i("Zomblind INFO Arma cuerpo", _z._entorno._jugador._armas.getArma(tipo_arma.CUERPO).toString());
+			Log.i("Zomblind INFO Arma distancia", _z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA).toString());
+			//Log.i("Zomblind INFO Zombie 0", _z._entorno._npcs._npc[0].toString());
+			//Log.i("Zomblind INFO Zombie 1", _z._entorno._npcs._npc[1].toString());
+			//Log.i("Zomblind INFO Zombie 2", _z._entorno._npcs._npc[2].toString());
+			
 		}
 	}
 }
