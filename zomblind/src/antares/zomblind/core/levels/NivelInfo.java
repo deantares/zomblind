@@ -19,12 +19,22 @@ package antares.zomblind.core.levels;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.XmlResourceParser;
+import android.util.Log;
+import android.util.Xml;
+import android.widget.Toast;
+import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
 import antares.zomblind.core.levels.generate.*;
 import antares.zomblind.core.levels.checker.*;
 import antares.zomblind.core.levels.conditions.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.*;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
 public class NivelInfo {
 	ZomblindActivity _z;
@@ -46,6 +56,65 @@ public class NivelInfo {
 
 	public NivelInfo(Context ctx) {
 		_z = (ZomblindActivity) ctx;
+	}
+	
+	public NivelInfo(Context ctx, String name){
+		InputStream fin = null;
+		_z = (ZomblindActivity) ctx;
+		
+		String TAG = "TratamientoXML";
+		 StringBuffer sb = new StringBuffer();
+		    XmlResourceParser xpp = _z.getResources().getXml(R.xml.level00);
+		 
+		    int eventType = -1;
+		    try {
+				xpp.next();
+			    eventType = xpp.getEventType();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				Log.e(TAG,e1.getMessage());
+			}
+
+		     while (eventType != XmlPullParser.END_DOCUMENT) 
+		     {
+		         if(eventType == XmlPullParser.START_DOCUMENT) 
+		         {
+		        	//El comienzo del documento
+		            //sb.append("******Start document");
+		        	 
+		        	 
+		        	 
+		         } 
+		         else if(eventType == XmlPullParser.START_TAG) 
+		         {
+		            sb.append("nStart tag "+xpp.getName());
+		            
+		            for (int a=0; a< xpp.getAttributeCount();a++) {
+						
+						sb.append("=");
+						sb.append(xpp.getAttributeIntValue(a,0));
+						
+						//if("zomblind".equals((xpp.getName())){ 										}
+						
+					}
+		            
+		         } 
+		         else if(eventType == XmlPullParser.END_TAG) 
+		         {
+		            sb.append("nEnd tag "+xpp.getName());
+		         } 
+		         else if(eventType == XmlPullParser.TEXT) 
+		         {
+		            sb.append("nText "+xpp.getText());
+		         }
+		         try{
+		         eventType = xpp.next();
+		         }catch (Exception e) {
+					Log.e(TAG,e.getMessage());
+				}
+		     }//eof-while
+		     sb.append("n******End document");
+		     Log.v(TAG,sb.toString());
 	}
 
 	public void push(String men, String cond, String gen, String check) {

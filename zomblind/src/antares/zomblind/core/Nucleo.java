@@ -136,7 +136,8 @@ public class Nucleo {
 		_npcs = new NpcLista();
 		_eventos = new Timer("Nivel 000");
 		
-		_l = new NivelInfo(_z);
+		//_l = new NivelInfo(_z);
+		_l = new NivelInfo(_z,"level00.xml");
 				
 		_z._habladora.decir("Cargando");
 		_l.push("", "SinZombies"  , "AleatorioFlojos", "Todos" );

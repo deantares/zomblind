@@ -3,7 +3,6 @@ package antares.zomblind.core.objetos;
 import java.util.ArrayList;
 
 import android.content.Context;
-import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
 
 public class ArmaLista {

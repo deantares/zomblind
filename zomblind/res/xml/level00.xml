@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<zomblind level="01" name="El nombre" difficulty="0">
+	<player>
+		<infeccion current="0" maxima="100"></infeccion>
+		<stamina current = "100" maxima="100" ratio="5"></stamina>
+		<weapons current_cc="1" current_d="3">
+			<weapon>
+				<id>0</id>
+				<name>Ninguna</name>
+			</weapon>
+			<weapon>
+				<id>1</id>
+				<name>GOLPE1</name>
+			</weapon>
+			<weapon>
+				<id>2</id>
+				<name>KATANA</name>
+			</weapon>
+			<weapon>
+				<id>3</id>
+				<name>PISTOLA9MM</name>
+			</weapon>
+			<weapon>
+				<id>4</id>
+				<name>RIFLECAZA</name>
+			</weapon>
+		</weapons>
+	</player>
+	<instances>
+	</instances>
+</zomblind>
