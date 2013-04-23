@@ -27,7 +27,7 @@ Un rotundo NO. Si bien es cierto que a la hora de desarrollar Zomblind nos hemos
 A parte de estar de moda, es una temática que siempre me ha resultado atractiva. Y a pesar de estar tremendamente explotada, no se había vivido nunca desde un personaje que no puede ver.
 ###Si los zombies no se pueden ver, ¿Cómo sé que están ahí?
 Pues por que los oyes. Cada Zombie tiene varios sonidos característicos (cuando se mueven, atacan, mueren,...) que te permiten saber que están allí.
-##¿Y cómo sé donde es "ahí"?
+###¿Y cómo sé donde es "ahí"?
 Sencillamente porque realmente oyes al zombie a tu izquierda muy cerca, o muy lejos por tu derecha...
 ###¿Cómo has creado los zombies enemigos?
 Durante los Hackathones que hemos realizado, se le ha ofrecido la oportunidad a todo aquel que ha querido a hacer y grabar su propio zombie para Zomblind. Ya estamos rozando la treintena.
