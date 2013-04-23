@@ -39,4 +39,16 @@ En el repositorio, tenemos la siguiente estructura de directorios:
 * Documentos: Con diversos documentos sobre Zomblind
 * Icono: El icono de la aplicación
 * Zomblind: El proyecto en Android.
-*
+* Trailer: Archivos de los trailers realizados para Zomblind.
+
+Si quieres probar el juego (aún en fase muy temprana de desarrollo) puedes instalar el APK o esperar a que lo publiquemos nuevamente en el Android Market.
+
+Necesitamos probarlo en todos los dispositivos posibles, ya que el mar de Android a veces nos deja cosas sorprendentes. Aquí te esponemos algunos errores que hemos localizado en algunos terminales, y que estamos trabajando en ellos:
+* Los sonidos se oyen "al revés". La derecha por la izquierda y viceversa.
+* * Puede ser que los cascos estén mal puestos (tienes que poner cada auricular en su correspondiente oreja)
+* * Puede ser que el terminal tenga invertidos los canales.
+En la primera misión, se le pide al jugador que "identifique" por donde está oyendo cada sonido para calibrar el dispositivo.
+
+* Problemas con el sensor de orientación:
+* * Hay dispositivos que muestran problemas con la orientación al tener el sensor "dispuesto" de otra forma.
+Se va a calibrar el sensor, igualmente, en la primera misión.
