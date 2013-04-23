@@ -31,6 +31,8 @@ Pues por que los oyes. Cada Zombie tiene varios sonidos característicos (cuando
 Sencillamente porque realmente oyes al zombie a tu izquierda muy cerca, o muy lejos por tu derecha...
 * ¿Cómo has creado los zombies enemigos?
 Durante los Hackathones que hemos realizado, se le ha ofrecido la oportunidad a todo aquel que ha querido a hacer y grabar su propio zombie para Zomblind. Ya estamos rozando la treintena.
+* ¿Por qué tan pocos Commits?
+Creemos que un commit no es un "guardar" el proyecto. Para nosotros un commit debe satisfacer que añade una funcionalidad completa y que esta no afecta a la integridad del proyecto, es decir, que para todos los commits, el proyecto debe de seguir funcionando, pero con funcionalidades nuevas. De esta forma, garantizamos que el código disponible ONLINE es siempre correcto, disponemos de un repositorio ordenado y con un historico real de los cambios que hemos realizado. Estamos en contra de la tendencia de hacer un commit a cada pocos minutos. Un commit cuando algo está completo y funcionando.
 
 
 Instalación y uso:
