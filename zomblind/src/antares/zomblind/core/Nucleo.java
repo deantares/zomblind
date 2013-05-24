@@ -15,6 +15,7 @@
  ******************************************************************************/
 package antares.zomblind.core;
 
+import antares.zomblind.R;
 import antares.zomblind.ZomblindActivity;
 import antares.zomblind.core.levels.NivelInfo;
 import antares.zomblind.core.npcs.NpcLista;
@@ -36,7 +37,9 @@ public class Nucleo {
 	// Object _jugador = null;
 
 	long TASK_DELAY = 2000;
-	long TASK_PERIOD = 5000;
+	long TASK_PERIOD = 2000;
+	
+	int intro = -1;
 
 	public ZomblindActivity _z = null;
 
@@ -49,13 +52,14 @@ public class Nucleo {
 	public float _max_volume = (float) 2;
 	public float _max_volume_inc = (float) 0.2;
 
-	//Información del nivel
+	// Información del nivel
 	public NivelInfo _l;
-	
-	//Sonidos auxiliares
+	public int _zombie_conta =0;
+
+	// Sonidos auxiliares
 	protected MediaPlayer _S_jugador = null;
 	protected MediaPlayer _S_entorno = null;
-	
+
 	protected MediaPlayer _S_main = null;
 	protected MediaPlayer _S_aux = null;
 
@@ -69,6 +73,19 @@ public class Nucleo {
 		@Override
 		public void run() {
 			if (_z.empezar == true) {
+				
+				if(intro == -1){
+					_S_main = MediaPlayer.create(_z, R.raw.level0_main);
+					_S_main.start();
+					intro = 0;					
+				}else if (intro == 0){
+					_S_entorno = MediaPlayer.create(_z, R.raw.level0_entorno);
+					_S_entorno.setLooping(true);
+					_S_entorno.start();
+					intro = 1;
+				}
+				
+				
 				if (_z._orientacion.isCalibrate() == true) {
 					if (!_z._talker.isSpeaking()) {
 
@@ -76,81 +93,80 @@ public class Nucleo {
 						Log.i("Generador", "Generando");
 						try {
 							_l.run_generate();
-							
+
 						} catch (Exception e) {
 							Log.e("Excepción generate", e.toString());
 						}
-						
+
 						// Los enemigos atacan
 						_npcs.ataque();
-						_jugador._resistencia.regenerar();
+//						_jugador._resistencia.regenerar();
 
 						// Los acercamos
 						_npcs.acercar();
 
 						// Reproducimos el audio
 						_npcs.play();
-						
-						if(_S_aux!=null){_S_aux.start();}
 
 					}
+					
 				}
 			}
 
 		}
 	}
-		class tarea_comprobacion extends TimerTask {
 
-			ZomblindActivity _z;
+	class tarea_comprobacion extends TimerTask {
 
-			public tarea_comprobacion(Context contexto) {
-				_z = (ZomblindActivity) contexto;
+		ZomblindActivity _z;
 
-			}
-
-			@Override
-			public void run() {
-				// Miramos que eventos de control se han activado;
-				if (_z.empezar == true) {
-					boolean t=false;
-					Log.i("Generador", "Generando");
-					try {
-						_l.run_check();
-						t = _l.run_condition();
-						
-						
-					} catch (Exception e) {
-						Log.e("Excepción generate", e.toString());
-					}
-					
-					//if(t){_l.next();}
-
-				}
-			}
+		public tarea_comprobacion(Context contexto) {
+			_z = (ZomblindActivity) contexto;
 
 		}
+
+		@Override
+		public void run() {
+			// Miramos que eventos de control se han activado;
+			if (_z.empezar == true) {
+				
+				_jugador._resistencia.regenerar();
+				boolean t = false;
+				Log.i("Generador", "Generando");
+				try {
+					_l.run_check();
+					t = _l.run_condition();
+
+				} catch (Exception e) {
+					Log.e("Excepción generate", e.toString());
+				}
+
+				// if(t){_l.next();}
+
+			}
+		}
+
+	}
 
 	public Nucleo(Context contexto) {
 		_z = (ZomblindActivity) contexto;
 		_jugador = new Jugador(_z);
 		_npcs = new NpcLista();
 		_eventos = new Timer("Nivel 000");
-		
-		//_l = new NivelInfo(_z);
-		_l = new NivelInfo(_z,"level00.xml");
-				
+
+		// _l = new NivelInfo(_z);
+		_l = new NivelInfo(_z, "level00.xml");
+
 		_z._habladora.decir("Cargando");
-		_l.push("", "SinZombies"  , "AleatorioFlojos", "Todos" );
-		_l.push("Bien hecho", "_conditions_all"  , "" , "");
-		_l.push("Final del juego", ""  , "", "" );
-		
+		_l.push("", "SinZombies", "AleatorioFlojos", "Todos");
+		_l.push("Bien hecho", "_conditions_all", "", "");
+		_l.push("Final del juego", "", "", "");
+
 		_eventos.scheduleAtFixedRate(new tarea_generacion(contexto),
 				TASK_DELAY, TASK_PERIOD);
 		_eventos.scheduleAtFixedRate(new tarea_comprobacion(contexto),
 				TASK_DELAY, TASK_PERIOD / 20);
 
-		
-
 	}
-	
+
 }

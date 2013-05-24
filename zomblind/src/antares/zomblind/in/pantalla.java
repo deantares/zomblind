@@ -20,6 +20,8 @@ import android.view.Display;
 import android.view.MotionEvent;
 import antares.zomblind.ZomblindActivity;
 import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
+import antares.zomblind.core.objetos.ArmaLista.tipo_arma_recargar;
+import antares.zomblind.core.objetos.ArmaLista.tipo_disparo;
 
 public class Pantalla {
 
@@ -49,14 +51,13 @@ public class Pantalla {
 			return 1;
 
 		} else if (y < height * 0.75) {
-			if (x < width * 0.25){
+			if (x < width * 0.25) {
 				return 3;
-			}else if(x < width * 0.75){
+			} else if (x < width * 0.75) {
 				return 0;
-			}else {
+			} else {
 				return 4;
 			}
-			
 
 		} else {
 			return 2;
@@ -64,12 +65,14 @@ public class Pantalla {
 		}
 
 	}
-	
-	public int isDisparando(){
-		if(action == "disparo"){
-			action = "";
+
+	public int isDisparando() {
+		if (action == "disparo") {
+			if (_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA)._tipo_disparo != tipo_disparo.AUTO) {
+				action = "";
+			}
 			return _z._orientacion._zona_mirando;
-		}else{
+		} else {
 			return -1;
 		}
 
@@ -87,63 +90,82 @@ public class Pantalla {
 
 				x0 = x;
 				y0 = y;
+
+				if (zona(x, y) == 0 && zona(x0, y0) == 0) {
+					//action = "disparo";
+					if (_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA)._tipo_disparo == tipo_disparo.AUTO) {
+						action = "disparo";
+					}
+
+					// Codigo del disparo
+				} else {
+					action = "";
+				}
+
 			} else if (evento.getAction() == MotionEvent.ACTION_UP) {
 				x = evento.getX();
 				y = evento.getY();
 
-				if (zona(x,y)== 0 && zona(x0,y0)==0){
-					action ="disparo";
-					
-					//Codigo del disparo
-				}else if(zona(x,y)== 1 && zona(x0,y0)==0){
+				if (zona(x, y) == 0 && zona(x0, y0) == 0) {
+					// Codigo del disparo
+					if (_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA)._tipo_disparo != tipo_disparo.AUTO) {
+						action = "disparo";
+					}else{
+						action = "";
+					}
+
+
+				} else if (zona(x, y) == 1 && zona(x0, y0) == 0) {
 					action = "info_jugador";
 					_z._entorno._jugador.info();
-					//Codigo de la información del jugador
-					
-				}else if(zona(x,y)== 2 && zona(x0,y0)==0){
+					// Codigo de la información del jugador
+
+				} else if (zona(x, y) == 2 && zona(x0, y0) == 0) {
 					action = "info_armas";
-					//Información del arma
-					
-				}else if(zona(x,y)== 3 && zona(x0,y0)==0){
+					// Información del arma
+
+				} else if (zona(x, y) == 3 && zona(x0, y0) == 0) {
 					action = "cambio_arma_cuerpo";
-					
-					//Codigo del cambio de arma cuerpo a cuerpo
-					
-				}else if(zona(x,y)== 4 && zona(x0,y0)==0){
+
+					// Codigo del cambio de arma cuerpo a cuerpo
+
+				} else if (zona(x, y) == 4 && zona(x0, y0) == 0) {
 					action = "cambio_arma_distancia";
-					
-					//Codigo del cambio de arma a distancia
-					
-				}else if(zona(x0,y0)== 4 && zona(x,y)==4){
+
+					// Codigo del cambio de arma a distancia
+
+				} else if (zona(x0, y0) == 4 && zona(x, y) == 4) {
 					_z._entorno._jugador._armas.next(tipo_arma.DISTANCIA);
-					_z._habladora.decir(_z._entorno._jugador._armas.getArma(tipo_arma.DISTANCIA)._name);
-				}else if(zona(x0,y0)== 3 && zona(x,y)==3){
+					_z._habladora.decir(_z._entorno._jugador._armas
+							.getArma(tipo_arma.DISTANCIA)._name);
+				} else if (zona(x0, y0) == 3 && zona(x, y) == 3) {
 					_z._entorno._jugador._armas.next(tipo_arma.CUERPO);
-					_z._habladora.decir(_z._entorno._jugador._armas.getArma(tipo_arma.CUERPO)._name);
+					_z._habladora.decir(_z._entorno._jugador._armas
+							.getArma(tipo_arma.CUERPO)._name);
 				}
-				
+
 			}
 
-//			synchronized (this) {
+			// synchronized (this) {
 
-				// Detectamos eventos
+			// Detectamos eventos
 
-//				action = String.valueOf(evento.getAction());
-//				if (evento.getAction() == MotionEvent.ACTION_DOWN) {
-//					x = evento.getX();
-//					y = evento.getY();
-//					Log.v("Entorno", x + "," + y);
-//
-//					if (_z._orientacion.isCalibrate() == false) {
-//						_z._habladora.say("Dispositivo calibrado");
-//						_z._orientacion.calibrate();
-//					}
-//				} else if (evento.getAction() == MotionEvent.EDGE_BOTTOM) {
-//					x = evento.getX();
-//					y = evento.getY();
-//					Log.v("Entorno", x + "," + y);
-//				}
-//			}
+			// action = String.valueOf(evento.getAction());
+			// if (evento.getAction() == MotionEvent.ACTION_DOWN) {
+			// x = evento.getX();
+			// y = evento.getY();
+			// Log.v("Entorno", x + "," + y);
+			//
+			// if (_z._orientacion.isCalibrate() == false) {
+			// _z._habladora.say("Dispositivo calibrado");
+			// _z._orientacion.calibrate();
+			// }
+			// } else if (evento.getAction() == MotionEvent.EDGE_BOTTOM) {
+			// x = evento.getX();
+			// y = evento.getY();
+			// Log.v("Entorno", x + "," + y);
+			// }
+			// }
 		}
 	}
 

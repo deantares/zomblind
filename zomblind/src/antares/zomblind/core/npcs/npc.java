@@ -166,6 +166,7 @@ public class Npc {
 		if (_salud <= 0) {
 			setVolumen(_S_muerte);
 			_S_muerte.start();
+			_z._entorno._zombie_conta ++;
 			return true;
 		}
 		return false;

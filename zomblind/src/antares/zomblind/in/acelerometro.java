@@ -148,7 +148,7 @@ public class Acelerometro {
 	}
 	
 	public boolean golpe_izquierda(){
-		return X>umbral_flojo;
+		return X>umbral_medio;
 	}
 	
 	public boolean golpe_izquierda_fuerte(){
@@ -156,7 +156,7 @@ public class Acelerometro {
 	}
 	
 	public boolean golpe_derecha(){
-		return X<-umbral_flojo;
+		return X<-umbral_medio;
 	}
 	
 	public boolean golpe_derecha_fuerte(){
@@ -164,7 +164,7 @@ public class Acelerometro {
 	}
 	
 	public boolean golpe_frente(){
-		return Z>umbral_flojo;
+		return Z>umbral_medio;
 	}
 	
 	public boolean golpe_frente_fuerte(){
@@ -172,7 +172,7 @@ public class Acelerometro {
 	}
 	
 	public boolean recargar(){
-		return Y>umbral_flojo;
+		return Y>umbral_medio;
 	}
 	
 	public boolean lanzar(){

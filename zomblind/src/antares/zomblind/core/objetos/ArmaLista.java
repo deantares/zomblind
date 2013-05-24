@@ -16,7 +16,7 @@ public class ArmaLista {
 	}
 
 	public enum tipo_disparo {
-		NULO, AUTO, MANUAL, RAFAGA
+		NULO, AUTO, MANUAL, RAFAGA_2, RAFAGA_5
 	}
 
 	private ZomblindActivity _z;
@@ -40,6 +40,8 @@ public class ArmaLista {
 		this._lista.add(new Arma(_z, ArmaData.PISTOLA9MM));
 		
 		this._lista.add(new Arma(_z, ArmaData.RIFLECAZA));
+		
+		this._lista.add(new Arma(_z, ArmaData.MOTOSIERRA));
 
 		for(Arma a:this._lista){a._descubierta = true;};
 		

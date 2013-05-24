@@ -50,7 +50,7 @@ public class Jugador {
 		public int _max = 100;
 		public int _actual = _max;
 		
-		public int _ratio_regeneracion = 2;
+		public int _ratio_regeneracion = 1;
 		
 		@Override
 		public String toString() {

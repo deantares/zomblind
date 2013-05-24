@@ -209,6 +209,9 @@ public class Debug {
 					paint);
 			canvas.drawText("Posición de mira (azimut): "
 					+ _z._orientacion.azimut, 10, delay_text * 17, paint);
+			
+			canvas.drawText("Contador de zombies: "
+					+ _z._entorno._zombie_conta, 10, delay_text * 18, paint);
 
 			//Salida por fichero de log:
 			//Log.i("Zomblind INFO Jugador", _z._entorno._jugador.toString());

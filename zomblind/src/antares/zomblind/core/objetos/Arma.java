@@ -21,6 +21,7 @@ import android.media.MediaPlayer;
 import antares.zomblind.ZomblindActivity;
 import antares.zomblind.core.objetos.ArmaLista.tipo_arma;
 import antares.zomblind.core.objetos.ArmaLista.tipo_arma_recargar;
+import antares.zomblind.core.objetos.ArmaLista.tipo_disparo;
 
 public class Arma {
 
@@ -31,6 +32,7 @@ public class Arma {
 	public int _dano;
 	public tipo_arma _tipo;
 	public tipo_arma_recargar _tipo_recargar;
+	public tipo_disparo _tipo_disparo;
 	public int _cansancio;
 
 	// Munición
@@ -78,6 +80,8 @@ public class Arma {
 		this._dano = arma._dano;
 		this._tipo = arma._tipo;
 		this._tipo_recargar = arma._tipo_recargar;
+		this._tipo_disparo = arma._tipo_disparo;
+		
 		this._arma_municion = arma._arma_municion;
 		this._arma_municion_maxima = arma._arma_municion_maxima;
 
@@ -148,13 +152,13 @@ public class Arma {
 	}
 
 	public boolean usar() {
-		if (this._S_ataque.isPlaying()) {
+		if (this._S_ataque.isPlaying() && this._tipo_disparo != tipo_disparo.AUTO) {
 			return false;
 		}
 		if (_tipo == tipo_arma.DISTANCIA) {
 			if (_arma_municion > 0) {
 				this._arma_municion--;
-				_z._vibrador.vibrarpattern(_vibra_patron_usar);
+				_z._vibrador.vibrarpattern(_vibra_patron_usar);				
 				_S_ataque.setVolume(_z._entorno._max_volume,
 						_z._entorno._max_volume);
 				_S_ataque.start();

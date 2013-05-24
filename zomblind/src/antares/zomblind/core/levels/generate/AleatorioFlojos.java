@@ -46,7 +46,7 @@ public class AleatorioFlojos implements _Generador {
 
 		// Generamos enemigos
 		if (a < 5) {
-			int b = ale.nextInt(100);
+			int b = ale.nextInt(50);
 			if(b < 0){
 				_z._entorno._npcs.push(new Npc(_z, NpcData._olakase));
 			}else if (b == 1) {
